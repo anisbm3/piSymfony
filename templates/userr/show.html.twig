@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Userr{% endblock %}
+
+{% block body %}
+    <h1>Userr</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Pseudo</th>
+                <td>{{ userr.pseudo }}</td>
+            </tr>
+            <tr>
+                <th>Cin</th>
+                <td>{{ userr.cin }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ userr.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ userr.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Age</th>
+                <td>{{ userr.age }}</td>
+            </tr>
+            <tr>
+                <th>NumTel</th>
+                <td>{{ userr.numTel }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ userr.email }}</td>
+            </tr>
+            <tr>
+                <th>Mdp</th>
+                <td>{{ userr.mdp }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ userr.role }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_userr_index') }}">back to list</a>
+
+    <a href="{{ path('app_userr_edit', {'pseudo': userr.pseudo}) }}">edit</a>
+
+    {{ include('userr/_delete_form.html.twig') }}
+{% endblock %}

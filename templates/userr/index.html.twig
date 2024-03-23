@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Userr index{% endblock %}
+
+{% block body %}
+    <h1>Userr index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Pseudo</th>
+                <th>Cin</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Age</th>
+                <th>NumTel</th>
+                <th>Email</th>
+                <th>Mdp</th>
+                <th>Role</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for userr in userrs %}
+            <tr>
+                <td>{{ userr.pseudo }}</td>
+                <td>{{ userr.cin }}</td>
+                <td>{{ userr.nom }}</td>
+                <td>{{ userr.prenom }}</td>
+                <td>{{ userr.age }}</td>
+                <td>{{ userr.numTel }}</td>
+                <td>{{ userr.email }}</td>
+                <td>{{ userr.mdp }}</td>
+                <td>{{ userr.role }}</td>
+                <td>
+                    <a href="{{ path('app_userr_show', {'pseudo': userr.pseudo}) }}">show</a>
+                    <a href="{{ path('app_userr_edit', {'pseudo': userr.pseudo}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_userr_new') }}">Create new</a>
+{% endblock %}
