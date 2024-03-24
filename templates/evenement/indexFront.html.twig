@@ -1,0 +1,38 @@
+{% extends 'Front.html.twig' %}
+
+{% block title %}Evenement index{% endblock %}
+
+{% block body %}
+      <div class="service">
+        <div class="container">
+            <div class="section-header text-center">
+              <div id="google_translate_element"></div>
+
+                <h4 style="margin-top:50px; margin-bottom:50px;">Liste des Evenements</h4>
+            </div>
+            <div class="row">
+           {% for evenement in evenements %}
+        <div class="col-lg-4 col-md-6 mb-4">
+        <div class="service-item">
+          <img src="{{ asset('uploads/' ~evenement.Image)}}" style=" width:360px; height:250px; " alt="">
+          <center><h2>{{ evenement.NomEvent }}</h2></center>
+          <p><strong style="color:#696969"> Description :</strong> {{ evenement.DescriptionEvent }}</p>
+          <p><strong style="color:#696969" >Lieu:</strong> {{ evenement.LieuEvent }}</p>
+          <p><strong style="color:#696969"> Event Date:</strong> {{ evenement.DateEvent ? evenement.DateEvent|date('Y-m-d') : '' }}</p>
+         <center> <a href="{{ path('app_reservation_new',{'idevent':evenement.id}) }}" class="btn btn-primary">Participer</a></center>
+         <br>
+
+        </div>
+      </div>
+      {% else %}
+      <div class="col">
+        <p class="text-center">Aucun événement trouvé.</p>
+      </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+    </div>   
+{% endblock %}

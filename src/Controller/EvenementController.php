@@ -14,14 +14,79 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/evenement')]
 class EvenementController extends AbstractController
 {
-    #[Route('/', name: 'app_evenement_index', methods: ['GET'])]
-    public function index(EvenementRepository $evenementRepository): Response
+    #[Route('/', name: 'app_evenement_index', methods: ['GET','POST'])]
+    public function index(EntityManagerInterface $entityManager,EvenementRepository $evenementRepository,Request $request): Response
     {
-        return $this->render('evenement/index.html.twig', [
+        $evenements = $entityManager
+        ->getRepository(Evenement::class)
+        ->findAll();
+
+        /////////
+        $back = null;
+        
+        if($request->isMethod("POST")){
+            if ( $request->request->get('optionsRadios')){
+                $SortKey = $request->request->get('optionsRadios');
+                switch ($SortKey){
+                    case 'NomEvent':
+                        $evenements = $evenementRepository->SortByNomEvent();
+                        break;
+
+                    case 'LieuEvent':
+                        $evenements = $evenementRepository->SortByLieuEvent();
+                        break;
+
+                    case 'DateEvent':
+                        $evenements = $evenementRepository->SortByDateEvent();
+                        break;
+
+
+                }
+            }
+            else
+            {
+                $type = $request->request->get('optionsearch');
+                $value = $request->request->get('Search');
+                switch ($type){
+                    case 'NomEvent':
+                        $evenements = $evenementRepository->findByNomEvent($value);
+                        break;
+
+                    case 'LieuEvent':
+                        $evenements = $evenementRepository->findByLieuEvent($value);
+                        break;
+
+                    case 'DateEvent':
+                        $evenements = $evenementRepository->findByDateEvent($value);
+                        break;
+
+          
+
+                }
+            }
+
+            if ( $evenements){
+                $back = "success";
+            }else{
+                $back = "failure";
+            }
+        }
+            ////////
+
+    return $this->render('evenement/index.html.twig', [
+        'evenements' => $evenements,'back'=>$back
+    ]);
+    }
+
+    #[Route('/front', name: 'app_evenement_indexFront', methods: ['GET'])]
+    public function indexFront(EvenementRepository $evenementRepository): Response
+    {
+        return $this->render('evenement/indexFront.html.twig', [
             'evenements' => $evenementRepository->findAll(),
         ]);
     }
 
+    
     #[Route('/new', name: 'app_evenement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -30,6 +95,10 @@ class EvenementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $evenement->getImage();
+            $filename = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('uploads'),$filename);
+            $evenement->setImage($filename);
             $entityManager->persist($evenement);
             $entityManager->flush();
 
@@ -57,6 +126,10 @@ class EvenementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $evenement->getImage();
+            $filename = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('uploads'),$filename);
+            $evenement->setImage($filename);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);

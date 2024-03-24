@@ -45,4 +45,57 @@ class EvenementRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function SortByNomEvent(){
+    return $this->createQueryBuilder('e')
+        ->orderBy('e.NomEvent','ASC')
+        ->getQuery()
+        ->getResult()
+        ;
+}
+
+public function SortByLieuEvent()
+{
+    return $this->createQueryBuilder('e')
+        ->orderBy('e.LieuEvent','ASC')
+        ->getQuery()
+        ->getResult()
+        ;
+}
+
+
+public function SortByDateEvent()
+{
+    return $this->createQueryBuilder('e')
+        ->orderBy('e.DateEvent','ASC')
+        ->getQuery()
+        ->getResult()
+        ;
+}
+
+public function findByNomEvent( $NomEvent)
+{
+    return $this-> createQueryBuilder('e')
+        ->andWhere('e.NomEvent LIKE :NomEvent')
+        ->setParameter('NomEvent','%' .$NomEvent. '%')
+        ->getQuery()
+        ->execute();
+}
+public function findByLieuEvent( $LieuEvent)
+{
+    return $this-> createQueryBuilder('e')
+        ->andWhere('e.LieuEvent LIKE :LieuEvent')
+        ->setParameter('LieuEvent','%' .$LieuEvent. '%')
+        ->getQuery()
+        ->execute();
+}
+public function findByDateEvent( $DateEvent)
+{
+    return $this-> createQueryBuilder('e')
+        ->andWhere('e.DateEvent LIKE :DateEvent')
+        ->setParameter('DateEvent','%' .$DateEvent. '%')
+        ->getQuery()
+        ->execute();
+}
+
 }

@@ -31,6 +31,9 @@ class Evenement
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'Evenement')]
     private Collection $Reservation;
 
+    #[ORM\Column(length: 255)]
+    private $Image = null;
+
     public function __toString()
     {
         return $this->NomEvent;
@@ -120,6 +123,18 @@ class Evenement
                 $reservation->setEvenement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->Image;
+    }
+
+    public function setImage($Image)
+    {
+        $this->Image = $Image;
 
         return $this;
     }

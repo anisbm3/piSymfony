@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'Front.html.twig' %}
 
 {% block title %}Edit Reservation{% endblock %}
 
@@ -7,7 +7,6 @@
 
     {{ include('reservation/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_reservation_index') }}">back to list</a>
-
+  
     {{ include('reservation/_delete_form.html.twig') }}
 {% endblock %}
