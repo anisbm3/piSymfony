@@ -1,43 +1,60 @@
-{% extends 'base.html.twig' %}
+{% extends 'Front.html.twig' %}
 
 {% block title %}Produits index{% endblock %}
 
 {% block body %}
-    <h1>Produits index</h1>
+<div class="service">
+    <div class="container">
+        <div class="section-header text-center">
+            <div id="google_translate_element"></div>
+            <h4 style="margin-top:50px; margin-bottom:50px;">Liste des Produits</h4>
+        </div>
+        <div class="row">
+            {% for produit in produits %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-item">
+                    <center><h2>{{ produit.Nom }}</h2></center>
+                    <p><strong style="color:#696969"> Description :</strong> {{ produit.Description }}</p>
+                    <p><strong style="color:#696969"> Prix</strong> {{ produit.Prix }}</p>
+                    <p><strong style="color:#696969" >Stock:</strong> {{ produit.Stock }}</p>
+                    <p><strong style="color:#696969"> Prix</strong> {{ produit.Category }}</p>
+                    <center>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button" onclick="decrementQuantity('{{ produit.id }}')">-</button>
+                            </div>
+                            <input type="number" class="form-control" id="quantity_{{ produit.id }}" value="1" min="1">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" onclick="incrementQuantity('{{ produit.id }}')">+</button>
+                            </div>
+                        </div>
+                    </center>
+                    <center><a href="{{ path('app_panier_new',{'idproduits':produit.id}) }}" class="btn btn-primary">Ajouter Au panier</a></center>
+                    <br>
+                </div>
+            </div>
+            {% else %}
+            <div class="col">
+                <p class="text-center">Aucun Produit trouvé.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Stock</th>
-                <th>Category</th>
-                <th>Nom</th>
-                <th>Prix</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for produit in produits %}
-            <tr>
-                <td>{{ produit.id }}</td>
-                <td>{{ produit.Stock }}</td>
-                <td>{{ produit.Category }}</td>
-                <td>{{ produit.Nom }}</td>
-                <td>{{ produit.Prix }}</td>
-                <td>{{ produit.Description }}</td>
-                <td>
-                    <a href="{{ path('app_produits_show', {'id': produit.id}) }}">show</a>
-                    <a href="{{ path('app_produits_edit', {'id': produit.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<script>
+    function incrementQuantity(productId) {
+        var input = document.getElementById('quantity_' + productId);
+        var value = parseInt(input.value) || 0;
+        input.value = value + 1;
+    }
 
-    <a href="{{ path('app_produits_new') }}">Create new</a>
+    function decrementQuantity(productId) {
+        var input = document.getElementById('quantity_' + productId);
+        var value = parseInt(input.value) || 0;
+        if (value > 1) {
+            input.value = value - 1;
+        }
+    }
+</script>
 {% endblock %}

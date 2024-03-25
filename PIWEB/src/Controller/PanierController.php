@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\Panier;
 use App\Form\PanierType;
 use App\Repository\PanierRepository;
@@ -84,4 +83,8 @@ class PanierController extends AbstractController
 
         return $this->redirectToRoute('app_panier_index', [], Response::HTTP_SEE_OTHER);
     }
+    
+  
+    
+   
 }
