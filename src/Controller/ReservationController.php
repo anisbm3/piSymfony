@@ -31,6 +31,7 @@ class ReservationController extends AbstractController
         ]);
     }
 
+
     #[Route('{idevent}/new', name: 'app_reservation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager,Evenement $idevent): Response
     {
