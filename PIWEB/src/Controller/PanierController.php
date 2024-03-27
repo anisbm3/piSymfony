@@ -29,23 +29,25 @@ class PanierController extends AbstractController
     }
     #[Route('/new', name: 'app_panier_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $panier = new Panier();
-        $form = $this->createForm(PanierType::class, $panier);
-        $form->handleRequest($request);
+    {    $nomProduit = $request->query->get('nomProduit');
 
+        $panier = new Panier();
+        $form = $this->createForm(PanierType::class, $panier, ['nom_produit' => $nomProduit]); // Ajoutez cette ligne pour passer le nom du produit au formulaire
+        $form->handleRequest($request);
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($panier);
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_panier_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->renderForm('panier/new.html.twig', [
             'panier' => $panier,
             'form' => $form,
         ]);
     }
+    
 
     #[Route('/{id}', name: 'app_panier_show', methods: ['GET'])]
     public function show(Panier $panier): Response

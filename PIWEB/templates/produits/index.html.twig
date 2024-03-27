@@ -17,7 +17,7 @@
                     <p><strong style="color:#696969"> Description :</strong> {{ produit.Description }}</p>
                     <p><strong style="color:#696969"> Prix</strong> {{ produit.Prix }}</p>
                     <p><strong style="color:#696969" >Stock:</strong> {{ produit.Stock }}</p>
-                    <p><strong style="color:#696969"> Prix</strong> {{ produit.Category }}</p>
+                    <p><strong style="color:#696969"> Category</strong> {{ produit.Category }}</p>
                     <center>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -29,7 +29,7 @@
                             </div>
                         </div>
                     </center>
-                    <center><a href="{{ path('app_panier_new',{'idproduits':produit.id}) }}" class="btn btn-primary">Ajouter Au panier</a></center>
+                    <center><a href="{{ path('app_panier_new', {'idproduits': produit.id, 'nomProduit': produit.Nom}) }}" class="btn btn-primary">Ajouter Au panier</a></center>
                     <br>
                 </div>
             </div>
