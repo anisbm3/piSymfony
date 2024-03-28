@@ -33,6 +33,8 @@ class PanierController extends AbstractController
         // Récupérer le nom du produit et le prix du produit à partir de la requête
         $nomProduit = $request->query->get('nomProduit');
         $prixProduit = $request->query->get('prixProduit');
+        $quantity = $request->request->get('quantity');
+       // $prixProduit = intval($request->query->get('prixProduit'));
 
         // Créer une instance de Panier
         $panier = new Panier();
@@ -40,7 +42,8 @@ class PanierController extends AbstractController
         // Créer le formulaire et passer le nom et le prix du produit en option
         $form = $this->createForm(PanierType::class, $panier, [
             'nom_produit' => $nomProduit,
-            'prix_produit' => $prixProduit,
+            'prix_produit' => $prixProduit*$quantity,
+            'quantity' => $quantity
         ]);
 
         // Gérer la soumission du formulaire

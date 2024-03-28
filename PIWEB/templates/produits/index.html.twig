@@ -18,9 +18,14 @@
                     <p><strong style="color:#696969"> Prix</strong> {{ produit.Prix }}</p>
                     <p><strong style="color:#696969" >Stock:</strong> {{ produit.Stock }}</p>
                     <p><strong style="color:#696969"> Category</strong> {{ produit.Category }}</p>
- 
-                    <center><a href="{{ path('app_panier_new', {'idproduits': produit.id, 'nomProduit': produit.Nom,'prixProduit':produit.Prix}) }}" class="btn btn-primary">Ajouter Au panier</a></center>
-                    <br>
+                    
+                    <form action="{{ path('app_panier_new', {'idproduits': produit.id, 'nomProduit': produit.Nom,'prixProduit':produit.Prix,  'quantity': 'quantity' }) }}" method="post">
+                        <label for="quantity">Quantité:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ produit.Stock }}" required>
+                        <button type="submit" class="btn btn-primary">Ajouter Au panier</button>
+                    </form>
+                    
+                    
                 </div>
             </div>
             {% else %}
@@ -32,19 +37,4 @@
     </div>
 </div>
 
-<script>
-    function incrementQuantity(productId) {
-        var input = document.getElementById('quantity_' + productId);
-        var value = parseInt(input.value) || 0;
-        input.value = value + 1;
-    }
-
-    function decrementQuantity(productId) {
-        var input = document.getElementById('quantity_' + productId);
-        var value = parseInt(input.value) || 0;
-        if (value > 1) {
-            input.value = value - 1;
-        }
-    }
-</script>
 {% endblock %}

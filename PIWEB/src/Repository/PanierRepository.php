@@ -21,6 +21,13 @@ class PanierRepository extends ServiceEntityRepository
         parent::__construct($registry, Panier::class);
     }
 
+    public function getMaxPanierId(): ?int
+    {
+        return $this->createQueryBuilder('p')
+            ->select('MAX(p.panier_id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 //    /**
 //     * @return Panier[] Returns an array of Panier objects
 //     */
