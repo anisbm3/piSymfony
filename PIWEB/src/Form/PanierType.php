@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Form;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 use App\Entity\User;
 use App\Entity\Panier;
 use Symfony\Component\Form\AbstractType;
@@ -10,19 +10,30 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\PanierRepository;
 
 class PanierType extends AbstractType
-{   private $entityManager;
+{
+    private $entityManager;
+    private $panierRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, PanierRepository $panierRepository)
     {
         $this->entityManager = $entityManager;
+        $this->panierRepository = $panierRepository;
     }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // Récupérez la valeur maximale de panier_id
+        $maxPanierId = $this->panierRepository->getMaxPanierId();
+
+        // Ajoutez 1 à la valeur maximale pour obtenir la nouvelle valeur de panier_id
+        $newPanierId = $maxPanierId + 1;
 
         $builder
             ->add('prod_name', TextType::class, [
@@ -34,7 +45,7 @@ class PanierType extends AbstractType
                 'label' => 'Quantite',
                 'data' => $options['quantity'],
                 'attr' => ['readonly' => true]
-            ] )
+            ])
             ->add('price', NumberType::class, [
                 'label' => 'Price',
                 'data' => $options['prix_produit'],
@@ -47,29 +58,32 @@ class PanierType extends AbstractType
                 'format' => 'yyyy-MM-dd',
                 'attr' => ['readonly' => true]
             ])
-            ->add('panier_id')
+            ->add('panier_id', NumberType::class, [
+                'label' => 'ID du panier',
+                'data' => $newPanierId,
+                'attr' => ['readonly' => true]
+            ])
             ->add('User', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'id',
                 'label' => 'User',
                 'data' => $this->entityManager->getReference(User::class, 1), // Récupère l'utilisateur avec l'ID 1 depuis la base de données
                 'attr' => ['readonly' => true],
-            ]);   
-            ;
-            $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
-                $form = $event->getForm();
-                $data = $event->getData();
-              
-                if ($data instanceof Panier && null !== $data->getQuantity() && isset($options['prix_produit'])) {
-                    $quantity = $data->getQuantity();
-                    $initialPrice = $options['prix_produit'];
-                    $newPrice = $quantity * $initialPrice;
-    
-                    // Set the new price value to the price field
-                    $form->get('price')->setData(12);
-                }
-            });
-            
+            ]);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
+            $data = $event->getData();
+          
+            if ($data instanceof Panier && null !== $data->getQuantity() && isset($options['prix_produit'])) {
+                $quantity = $data->getQuantity();
+                $initialPrice = $options['prix_produit'];
+                $newPrice = $quantity * $initialPrice;
+
+                // Set the new price value to the price field
+                $form->get('price')->setData(12);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -79,7 +93,6 @@ class PanierType extends AbstractType
             'nom_produit' => null,
             'prix_produit' => null,
             'quantity' => null, // Définir l'option "quantity" avec une valeur par défaut
-
         ]);
     }
 }
