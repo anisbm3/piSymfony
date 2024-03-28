@@ -3,7 +3,7 @@
 namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use App\Entity\Panier;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,25 +17,31 @@ class PanierType extends AbstractType
         $builder
         ->add('prod_name', TextType::class, [
             'label' => 'Nom du produit',
-            'data' => $options['nom_produit'], // Initialiser le champ avec le nom du produit
+            'data' => $options['nom_produit'],
+            'attr' => ['readonly' => true] 
+        ])
+        ->add('quantity')
+        ->add('price', NumberType::class, [
+            'label' => 'Prix du produit',
+            'data' => $options['prix_produit'], // Initialiser le champ avec le prix du produit
             'attr' => ['readonly' => true] // Le rendre en lecture seule si nécessaire
         ])
-            ->add('quantity')
-            ->add('price')
-            ->add('date')
-            ->add('panier_id')
-            ->add('User', EntityType::class, [
+        ->add('date')
+        ->add('panier_id')
+        ->add('User', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'id',
                 'label' => 'User'
             ]);
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Panier::class,
-            'nom_produit' => null, // Ajoutez cette option pour passer le nom du produit
+            'nom_produit' => null,
+            'prix_produit' => null,
         ]);
     }
 }

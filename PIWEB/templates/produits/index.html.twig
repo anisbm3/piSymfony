@@ -18,18 +18,8 @@
                     <p><strong style="color:#696969"> Prix</strong> {{ produit.Prix }}</p>
                     <p><strong style="color:#696969" >Stock:</strong> {{ produit.Stock }}</p>
                     <p><strong style="color:#696969"> Category</strong> {{ produit.Category }}</p>
-                    <center>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-outline-secondary" type="button" onclick="decrementQuantity('{{ produit.id }}')">-</button>
-                            </div>
-                            <input type="number" class="form-control" id="quantity_{{ produit.id }}" value="1" min="1">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" onclick="incrementQuantity('{{ produit.id }}')">+</button>
-                            </div>
-                        </div>
-                    </center>
-                    <center><a href="{{ path('app_panier_new', {'idproduits': produit.id, 'nomProduit': produit.Nom}) }}" class="btn btn-primary">Ajouter Au panier</a></center>
+ 
+                    <center><a href="{{ path('app_panier_new', {'idproduits': produit.id, 'nomProduit': produit.Nom,'prixProduit':produit.Prix}) }}" class="btn btn-primary">Ajouter Au panier</a></center>
                     <br>
                 </div>
             </div>
