@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ProduitsRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\DBAL\Types\Types;
 #[ORM\Entity(repositoryClass: ProduitsRepository::class)]
 class Produits
 {
@@ -19,7 +19,14 @@ class Produits
     #[ORM\Column(length: 255)]
     private ?string $Category = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 20)]
+    #[Assert\NotBlank(message : "Veuillez Remplir ")]
+    #[Assert\Length(min: 5, max:20)]
+    #[Assert\Regex(
+        pattern: '/^[a-z]+$/i',
+        htmlPattern: '^[a-zA-Z]+$',
+        message:'Seuls lettres et espaces',
+    )]
     private ?string $Nom = null;
 
     #[ORM\Column]

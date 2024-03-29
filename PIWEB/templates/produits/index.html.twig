@@ -9,6 +9,20 @@
             <div id="google_translate_element"></div>
             <h4 style="margin-top:50px; margin-bottom:50px;">Liste des Produits</h4>
         </div>
+        <!-- Formulaire pour le tri -->
+        <form id="searchForm" action="{{ path('app_produits_index') }}" method="get">
+            <label for="tri">Trier par :</label>
+            <select name="tri" id="tri">
+                <option value="nom">Nom</option>
+                <option value="prix">Prix</option>
+                <!-- Ajoutez d'autres options de tri si nécessaire -->
+            </select>
+            <button type="submit" class="btn btn-primary">Trier</button>
+        </form>
+        
+        <!-- Champ de recherche -->
+        <input type="text" id="searchInput" name="q" placeholder="Rechercher...">
+
         <div class="row">
             {% for produit in produits %}
             <div class="col-lg-4 col-md-6 mb-4">
@@ -25,7 +39,6 @@
                         <button type="submit" class="btn btn-primary">Ajouter Au panier</button>
                     </form>
                     
-                    
                 </div>
             </div>
             {% else %}
@@ -36,5 +49,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Détecter les changements dans le champ de recherche et soumettre le formulaire de tri
+    document.getElementById('searchInput').addEventListener('input', function() {
+        document.getElementById('searchForm').submit();
+    });
+</script>
 
 {% endblock %}

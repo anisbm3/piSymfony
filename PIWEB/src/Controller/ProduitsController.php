@@ -15,12 +15,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProduitsController extends AbstractController
 {
     #[Route('/', name: 'app_produits_index', methods: ['GET'])]
-    public function index(ProduitsRepository $produitsRepository): Response
-    {
-        return $this->render('produits/index.html.twig', [
-            'produits' => $produitsRepository->findAll(),
-        ]);
+    public function index(Request $request, ProduitsRepository $produitsRepository): Response
+{
+    $searchTerm = $request->query->get('q');
+
+    // Récupérer le paramètre de tri depuis l'URL, par défaut trié par nom
+    $tri = $request->query->get('tri', 'nom');
+
+    // Appel à la méthode de recherche du repository si un terme de recherche est spécifié
+    if ($searchTerm) {
+        $produits = $produitsRepository->searchAndSort($searchTerm, $tri);
+    } else {
+        // Sinon, appeler la méthode de tri normale
+        $produits = $produitsRepository->findAllSorted($tri);
     }
+
+    return $this->render('produits/index.html.twig', [
+        'produits' => $produits,
+    ]);
+}
     #[Route('/back', name: 'app_produits_indexback', methods: ['GET'])]
     public function indexback(ProduitsRepository $produitsRepository): Response
     {

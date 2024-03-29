@@ -20,7 +20,28 @@ class ProduitsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Produits::class);
     }
+    public function findAllSorted($tri)
+    {
+        // Ajoutez votre logique de tri ici, en fonction du critère $tri
+        $query = $this->createQueryBuilder('p');
 
+        switch ($tri) {
+            case 'nom':
+                $query->orderBy('p.Nom', 'ASC');
+                break;
+            case 'prix':
+                $query->orderBy('p.Prix', 'ASC');
+                break;
+            // Ajoutez d'autres cas de tri si nécessaire
+            default:
+                $query->orderBy('p.nom', 'ASC');
+                break;
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+   
 //    /**
 //     * @return Produits[] Returns an array of Produits objects
 //     */
