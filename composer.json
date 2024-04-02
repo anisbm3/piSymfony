@@ -1,0 +1,6 @@
+{
+    "require": {
+        "symfony/web-server-bundle": "^4.4",
+        "symfony/console": "^5.4"
+    }
+}
