@@ -1,0 +1,60 @@
+{% extends 'Front.html.twig' %}
+
+{% block title %}Produits index{% endblock %}
+
+{% block body %}
+<div class="service">
+    <div class="container">
+        <div class="section-header text-center">
+            <div id="google_translate_element"></div>
+            <h4 style="margin-top:50px; margin-bottom:50px;">Liste des Produits</h4>
+        </div>
+        <!-- Formulaire pour le tri -->
+        <form id="searchForm" action="{{ path('app_produits_index') }}" method="get">
+            <label for="tri">Trier par :</label>
+            <select name="tri" id="tri">
+                <option value="nom">Nom</option>
+                <option value="prix">Prix</option>
+                <!-- Ajoutez d'autres options de tri si nécessaire -->
+            </select>
+            <button type="submit" class="btn btn-primary">Trier</button>
+        </form>
+        
+        <!-- Champ de recherche -->
+        <input type="text" id="searchInput" name="q" placeholder="Rechercher...">
+
+        <div class="row">
+            {% for produit in produits %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-item">
+                    <center><h2>{{ produit.Nom }}</h2></center>
+                    <p><strong style="color:#696969"> Description :</strong> {{ produit.Description }}</p>
+                    <p><strong style="color:#696969"> Prix</strong> {{ produit.Prix }}</p>
+                    <p><strong style="color:#696969" >Stock:</strong> {{ produit.Stock }}</p>
+                    <p><strong style="color:#696969"> Category</strong> {{ produit.Category }}</p>
+                    
+                    <form action="{{ path('app_panier_new1', {'idproduits': produit.id, 'nomProduit': produit.Nom,'prixProduit':produit.Prix,  'quantity': 'quantity' }) }}" method="post">
+                        <label for="quantity">Quantité:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ produit.Stock }}" required>
+                        <button type="submit" class="btn btn-primary">Ajouter Au panier</button>
+                    </form>
+                    
+                </div>
+            </div>
+            {% else %}
+            <div class="col">
+                <p class="text-center">Aucun Produit trouvé.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Détecter les changements dans le champ de recherche et soumettre le formulaire de tri
+    document.getElementById('searchInput').addEventListener('input', function() {
+        document.getElementById('searchForm').submit();
+    });
+</script>
+
+{% endblock %}

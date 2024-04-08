@@ -34,6 +34,26 @@ class ProduitsController extends AbstractController
         'produits' => $produits,
     ]);
 }
+#[Route('/index1', name: 'app_produits_index1', methods: ['GET'])]
+public function index1(Request $request, ProduitsRepository $produitsRepository): Response
+{
+$searchTerm = $request->query->get('q');
+
+// Récupérer le paramètre de tri depuis l'URL, par défaut trié par nom
+$tri = $request->query->get('tri', 'nom');
+
+// Appel à la méthode de recherche du repository si un terme de recherche est spécifié
+if ($searchTerm) {
+    $produits = $produitsRepository->searchAndSort($searchTerm, $tri);
+} else {
+    // Sinon, appeler la méthode de tri normale
+    $produits = $produitsRepository->findAllSorted($tri);
+}
+
+return $this->render('produits/index1.html.twig', [
+    'produits' => $produits,
+]);
+}
     #[Route('/back', name: 'app_produits_indexback', methods: ['GET'])]
     public function indexback(ProduitsRepository $produitsRepository): Response
     {
