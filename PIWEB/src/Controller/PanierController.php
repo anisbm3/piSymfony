@@ -114,7 +114,13 @@ class PanierController extends AbstractController
             'panier' => $panier,
         ]);
     }
-
+    #[Route('/{id}/showback', name: 'app_panier_showback', methods: ['GET'])]
+    public function showback(Panier $panier): Response
+    {
+        return $this->render('panier/showback.html.twig', [
+            'panier' => $panier,
+        ]);
+    }
     #[Route('/{id}/edit', name: 'app_panier_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Panier $panier, EntityManagerInterface $entityManager): Response
     {
@@ -124,7 +130,7 @@ class PanierController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_panier_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_panier_indexback', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('panier/edit.html.twig', [

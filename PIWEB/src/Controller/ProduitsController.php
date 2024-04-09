@@ -100,7 +100,7 @@ return $this->render('produits/index1.html.twig', [
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_produits_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_produits_indexback', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('produits/edit.html.twig', [

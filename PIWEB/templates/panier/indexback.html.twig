@@ -27,7 +27,7 @@
                 <td>{{ panier.date ? panier.date|date('Y-m-d') : '' }}</td>
                 <td>{{ panier.panierId }}</td>
                 <td>
-                    <a href="{{ path('app_panier_show', {'id': panier.id}) }}">show</a>
+                    <a href="{{ path('app_panier_showback', {'id': panier.id}) }}">show</a>
                 
                 </td>
             </tr>
@@ -39,5 +39,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_panier_new') }}">Create new</a>
 {% endblock %}

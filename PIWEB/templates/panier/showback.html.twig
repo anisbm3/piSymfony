@@ -1,4 +1,4 @@
-{% extends 'front.html.twig' %}
+{% extends 'Back.html.twig' %}
 
 {% block title %}Panier{% endblock %}
 
@@ -34,8 +34,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_panier_index') }}">back to list</a>
+    <a href="{{ path('app_panier_indexback') }}">back to list</a>
 
-
-    {{ include('panier/_delete_form.html.twig') }}
 {% endblock %}
