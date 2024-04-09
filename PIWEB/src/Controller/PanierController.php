@@ -16,11 +16,25 @@ class PanierController extends AbstractController
 {
     #[Route('/', name: 'app_panier_index', methods: ['GET'])]
     public function index(PanierRepository $panierRepository): Response
-    {
+    {   $maxPanierId = $panierRepository->getMaxPanierId();
+
         return $this->render('panier/index.html.twig', [
+            'paniers' => $panierRepository->findAll(),
+            'max_panier_id' => $maxPanierId,
+        ]);
+       
+       
+    }
+  
+    
+    #[Route('/List', name: 'app_panier_List', methods: ['GET'])]
+    public function List(PanierRepository $panierRepository): Response
+    {
+        return $this->render('panier/index1.html.twig', [
             'paniers' => $panierRepository->findAll(),
         ]);
     }
+    
     #[Route('/back', name: 'app_panier_indexback', methods: ['GET'])]
     public function indexback(PanierRepository $panierRepository): Response
     {
@@ -168,7 +182,23 @@ class PanierController extends AbstractController
 
         ]);
     }
+    #[Route('/panier/{panierId}/Paiement', name: 'app_paiement')]
+    public function Payer(int $panierId, PanierRepository $panierRepository): Response
+    {
+        $produits = $panierRepository->findProdDetailsByPanierId($panierId);
+        $totalPrice = 0;
+
+        // Calculer le total des prix
+        foreach ($produits as $produit) {
+            $totalPrice += $produit['price'];
+        }
     
+        return $this->render('panier/Payer.html.twig', [
+            'produits' => $produits,
+            'totalPrice' => $totalPrice,
+
+        ]);
+    }
 }
 
     

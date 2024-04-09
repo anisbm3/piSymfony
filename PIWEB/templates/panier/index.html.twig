@@ -29,7 +29,11 @@
                 <td>
                     <a href="{{ path('app_panier_show', {'id': panier.id}) }}">Show</a>
                     <a href="{{ path('app_panier_produits', {'panierId': panier.panierId}) }}" class="btn btn-success">Afficher total</a>
-                    </td>
+
+                    {% if panier.panierId == max_panier_id %}
+                        <a href="{{ path('app_paiement', {'panierId': panier.panierId})}}" class="btn btn-danger">Payer</a>
+                    {% endif %}
+                </td>
             </tr>
         {% else %}
             <tr>

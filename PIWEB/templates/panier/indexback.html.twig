@@ -1,4 +1,4 @@
-{% extends 'back.html.twig' %}
+{% extends 'front.html.twig' %}
 
 {% block title %}Panier index{% endblock %}
 
@@ -14,7 +14,7 @@
                 <th>Price</th>
                 <th>Date</th>
                 <th>Panier_id</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -27,16 +27,22 @@
                 <td>{{ panier.date ? panier.date|date('Y-m-d') : '' }}</td>
                 <td>{{ panier.panierId }}</td>
                 <td>
-                    <a href="{{ path('app_panier_showback', {'id': panier.id}) }}">show</a>
-                
+                    <a href="{{ path('app_panier_show', {'id': panier.id}) }}">Show</a>
+                    {% if panier.panierId == max_panier_id %}
+                        <a href="#" class="btn btn-danger">Payer</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">No records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
+    <!-- Bouton "Retour vers le catalogue" -->
+    <div>
+        <a href="{{ path('app_produits_index1') }}" class="btn btn-primary">Retour vers le catalogue</a>
+    </div>
 {% endblock %}
