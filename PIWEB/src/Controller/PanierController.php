@@ -143,7 +143,27 @@ class PanierController extends AbstractController
 
         return $this->redirectToRoute('app_panier_index', [], Response::HTTP_SEE_OTHER);
     }
+ 
     
+    #[Route('/panier/{panierId}/produits', name: 'app_panier_produits')]
+    public function afficherProduitsDuPanier(int $panierId, PanierRepository $panierRepository): Response
+    {
+        $produits = $panierRepository->findProdDetailsByPanierId($panierId);
+        $totalPrice = 0;
+
+        // Calculer le total des prix
+        foreach ($produits as $produit) {
+            $totalPrice += $produit['price'];
+        }
+    
+        return $this->render('panier/total.html.twig', [
+            'produits' => $produits,
+            'totalPrice' => $totalPrice,
+
+        ]);
+    }
+    
+}
+
     
    
-}

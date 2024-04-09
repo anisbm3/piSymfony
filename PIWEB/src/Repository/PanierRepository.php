@@ -28,6 +28,16 @@ class PanierRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+    public function findProdDetailsByPanierId(int $panierId): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.prod_name', 'p.quantity', 'p.price')
+            ->andWhere('p.panier_id = :panierId')
+            ->setParameter('panierId', $panierId)
+            ->getQuery()
+            ->getResult();
+    }
+    
 //    /**
 //     * @return Panier[] Returns an array of Panier objects
 //     */
