@@ -3,7 +3,7 @@
 {% block title %}Evenement index{% endblock %}
 
 {% block body %}
-      <div class="service">
+ <center>     <div class="service">
         <div class="container">
             <div class="section-header text-center">
               <div id="google_translate_element"></div>
@@ -19,7 +19,9 @@
           <p><strong style="color:#696969"> Description :</strong> {{ evenement.DescriptionEvent }}</p>
           <p><strong style="color:#696969" >Lieu:</strong> {{ evenement.LieuEvent }}</p>
           <p><strong style="color:#696969"> Event Date:</strong> {{ evenement.DateEvent ? evenement.DateEvent|date('Y-m-d') : '' }}</p>
-         <center> <a href="{{ path('app_reservation_new',{'idevent':evenement.id}) }}" class="btn btn-primary">Participer</a></center>
+          {% if evenement.NbPlace > 0 %}
+         <center> <a href="{{ path('app_reservation_new',{'idevent':evenement.id}) }}" class="btn btn-primary">Reservez</a></center>
+         {% endif %}
          <br>
 
         </div>
@@ -34,5 +36,5 @@
             </div>
 
         </div>
-    </div>   
+    </div>   </center>
 {% endblock %}

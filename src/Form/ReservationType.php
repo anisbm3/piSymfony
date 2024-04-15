@@ -10,6 +10,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Evenement;
 use App\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class ReservationType extends AbstractType
 {
@@ -18,7 +20,15 @@ class ReservationType extends AbstractType
         $builder
         ->add('NomReservation')
         ->add('NbPlace')
-        ->add('Etat')
+        ->add('Etat', ChoiceType::class, [
+            'choices' => [
+                'Handicapé' => 'handicape',
+                'Aveugle' => 'aveugle',
+                'Normal' => 'normal',
+            ],
+            'label' => 'Etat'
+        ])
+        //->add('Etat')
         ->add('User', EntityType::class, [
             'class' => User::class,
             'choice_label' => 'id',

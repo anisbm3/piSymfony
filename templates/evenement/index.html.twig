@@ -1,9 +1,9 @@
 {% extends 'back.html.twig' %}
 
-{% block title %}Evenement index{% endblock %}
+{% block title %}Evenement {% endblock %}
 
 {% block body %}
-    <h1>Evenement index</h1>
+   <center> <h1>Evenement </h1>
 
 <div class="main-panel">
     <div class="content-wrapper">
@@ -71,10 +71,11 @@
     <table class="table">
         <thead>
             <tr>
-                
+                <th>image</th>
                 <th>NomEvent</th>
                 <th>DescriptionEvent</th>
                 <th>LieuEvent</th>
+                <th>Nbr Place</th>
                 <th>DateEvent</th>
                 <th>afficher</th>
                 <th>modifier</th>
@@ -87,6 +88,7 @@
                 <td>{{ evenement.NomEvent }}</td>
                 <td>{{ evenement.DescriptionEvent }}</td>
                 <td>{{ evenement.LieuEvent }}</td>
+                <td>{{ evenement.NbPlace }}</td>
                 <td>{{ evenement.DateEvent ? evenement.DateEvent|date('Y-m-d H:i:s') : '' }}</td>
                 <td><a href="{{ path('app_evenement_show', {'id': evenement.id}) }}">show</a></td>
                  <td><a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}">edit</a></td>
@@ -100,5 +102,5 @@
     </table>
 
     <a href="{{ path('app_evenement_new') }}">Create new</a>
-           <a href="{{ path('app_evenement_indexFront') }}">hhh new</a>
+           <a href="{{ path('app_evenement_indexFront') }}">hhh new</a></center>
 {% endblock %}

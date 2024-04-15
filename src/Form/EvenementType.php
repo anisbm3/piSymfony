@@ -17,6 +17,7 @@ class EvenementType extends AbstractType
             ->add('NomEvent')
             ->add('DescriptionEvent')
             ->add('LieuEvent')
+            ->add('NbPlace')
             ->add('DateEvent')
         ;
     }

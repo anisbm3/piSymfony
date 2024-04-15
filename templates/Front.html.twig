@@ -204,8 +204,8 @@ FACEBOOK: https://www.facebook.com/themefisher
                           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Events <i class="fa fa-angle-down"></i></a>
                           <ul class="dropdown-menu" role="menu">
                            
-                            <li><a href="news-right-sidebar.html">Reservations</a></li>
-                            <li><a href="news-single.html">Reservez</a></li>
+                            <li><a href="{{ path('app_reservation_indexFront') }}">Reservations</a></li>
+                            <li><a href="{{ path('app_evenement_indexFront') }}">Reservez</a></li>
                           </ul>
                       </li>
                
@@ -248,8 +248,8 @@ FACEBOOK: https://www.facebook.com/themefisher
                 <h2 class="slide-title" data-animation-in="slideInLeft">Bienvenue dans Laugh_Tale le monde des Otakus</h2>
                 <h3 class="slide-sub-title" data-animation-in="slideInRight">Reservez les places sont limitées</h3>
                 <p data-animation-in="slideInLeft" data-duration-in="1.2">
-                    <a href="services.html" class="slider btn btn-primary">Nos Evenements</a>
-                    <a href="contact.html" class="slider btn btn-primary border">Notre Contact</a>
+                    <a href="{{ path('app_evenement_indexFront') }}" class="slider btn btn-primary">Nos Evenements</a>
+                    <a href="contact.html" class="slider btn btn-primary border">contact</a>
                 </p>
               </div>
           </div>

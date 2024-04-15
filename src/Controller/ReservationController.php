@@ -37,14 +37,24 @@ class ReservationController extends AbstractController
     {
         $reservation = new Reservation();
         $reservation->setEvenement($idevent);
+        $idevent->setNbPlace($idevent->getNbPlace()- $reservation->getNbPlace());
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $reservation = $form->getData();
+            $reservation->setEvenement($idevent);
+    
+            // Decrease the number of available seats for the event
+            $idevent->setNbPlace($idevent->getNbPlace() - $reservation->getNbPlace());
+
+            
             $entityManager->persist($reservation);
+            $entityManager->persist($idevent); // Update the event with the new number of available seats
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_reservation_indexFront', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_evenement_indexFront', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('reservation/new.html.twig', [

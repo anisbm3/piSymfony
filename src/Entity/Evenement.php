@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
 class Evenement
@@ -17,22 +19,36 @@ class Evenement
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:5)]
+    #[Assert\Length(max:20)]
+    #[Assert\NotBlank (message:"veuillez saisir le nom de l'evenement")]
     private ?string $NomEvent = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:5)]
+    #[Assert\Length(max:20)]
+    #[Assert\NotBlank (message:"veuillez saisir la description de l'evenement ")]
     private ?string $DescriptionEvent = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:5)]
+    #[Assert\Length(max:20)]
+    #[Assert\NotBlank (message:"veuillez saisir le lieu de l'evenement ")]
     private ?string $LieuEvent = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank (message:"veuillez saisir le Date  de l'evenement ")]
     private ?\DateTimeInterface $DateEvent = null;
 
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'Evenement')]
     private Collection $Reservation;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank (message:"veuillez saisir l'image de l'evenement ")]
     private $Image = null;
+
+    #[ORM\Column]
+    private ?int $NbPlace = null;
 
     public function __toString()
     {
@@ -135,6 +151,18 @@ class Evenement
     public function setImage($Image)
     {
         $this->Image = $Image;
+
+        return $this;
+    }
+
+    public function getNbPlace(): ?int
+    {
+        return $this->NbPlace;
+    }
+
+    public function setNbPlace(int $NbPlace): static
+    {
+        $this->NbPlace = $NbPlace;
 
         return $this;
     }
