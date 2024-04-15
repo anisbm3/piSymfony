@@ -55,10 +55,6 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             // Rediriger l'utilisateur vers la partie front
             return new RedirectResponse($this->urlGenerator->generate('app_front'));
         }
-        elseif (in_array('Locateur', $user->getRoles())) {
-            // Rediriger l'utilisateur vers la partie front
-            return new RedirectResponse($this->urlGenerator->generate('app_front'));
-        }
         elseif (in_array('Livreur', $user->getRoles())) {
             // Rediriger l'utilisateur vers la partie front
             return new RedirectResponse($this->urlGenerator->generate('app_front'));

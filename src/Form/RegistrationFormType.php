@@ -89,7 +89,6 @@ class RegistrationFormType extends AbstractType
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Client' => 'Client',
-                    'Locateur' => 'Locateur',
                     'Livreur' => 'Livreur',
                 ],
                 'multiple' => true, // Allow selecting multiple roles
