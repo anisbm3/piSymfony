@@ -46,7 +46,7 @@ class Cosplay
     private ?string $imagecp = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\NotNull, Assert\DateTime]
+   
     private ?\DateTimeInterface $datecreation = null;
 
     #[ORM\Column(length: 255,nullable: true)]

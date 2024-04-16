@@ -19,11 +19,11 @@ class CosplayType extends AbstractType
             ->add('imagecp')
             ->add('datecreation', DateType::class, [
                 'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd', // ou un autre format de date approprié
+                'format' => 'yyyy-MM-dd', 
             ])
            // ->add('nomma')
             ->add('idmateriaux')
-            ->add('userid')
+           // ->add('userid')
         ;
     }
 
