@@ -17,20 +17,36 @@ class Cosplay
 
     #[ORM\Column(length: 300)]
     #[Assert\NotBlank(message :"nom de cosplay est obligatoire")]
+    #[Assert\Regex(
+        pattern: '/\d/',
+        match: false,
+        message: 'Your cosplay cannot contain a number',
+    )]    
     private ?string $nomcp = null;
 
     #[ORM\Column(length: 300)]
     #[Assert\NotBlank(message :"description est obligatoire")]
+    #[Assert\Regex(
+        pattern: '/\d/',
+        match: false,
+        message: 'Your description cannot contain a number',
+    )]    
     private ?string $descriptioncp = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message :"nom de cosplay est obligatoire")]
+    #[Assert\NotBlank(message :"personnage est obligatoire")]
+    #[Assert\Regex(
+        pattern: '/\d/',
+        match: false,
+        message: 'Your personnage cannot contain a number',
+    )]    
     private ?string $personnage = null;
 
     #[ORM\Column(length: 300)]
     private ?string $imagecp = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotNull, Assert\DateTime]
     private ?\DateTimeInterface $datecreation = null;
 
     #[ORM\Column(length: 255,nullable: true)]

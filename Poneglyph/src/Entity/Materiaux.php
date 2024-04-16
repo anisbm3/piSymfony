@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\MateriauxRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,13 +16,34 @@ class Materiaux
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: false)]
+    #[Assert\NotBlank(message :"nom materiaux est obligatoire")]
+    #[Assert\Length(min :1, max : 255)]
+    #[Assert\Regex(
+        pattern: '/\d/',
+        match: false,
+        message: 'Your name cannot contain a number',
+    )]            
     private ?string $nomma ;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min :1, max : 255)]
+    #[Assert\NotBlank(message :"type materiaux est obligatoire")]
+    #[Assert\Regex(
+        pattern: '/\d/',
+        match: false,
+        message: 'Your type cannot contain a number',
+    )]    
     private ?string $typema = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $disponibilite = null;
+    #[Assert\Length(min :1, max : 255)]
+    #[Assert\NotBlank(message :"champs dispo est obligatoire")]
+    #[Assert\Regex(
+        pattern: '/\d/',
+        match: false,
+        message: 'Your disponibilite cannot contain a number',
+    )]    
+        private ?string $disponibilite = null;
 
     #[ORM\OneToMany(targetEntity: Cosplay::class, mappedBy: 'idmateriaux')]
     private Collection $cosplay;

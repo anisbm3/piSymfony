@@ -6,6 +6,7 @@ use App\Entity\Cosplay;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class CosplayType extends AbstractType
 {
@@ -16,7 +17,10 @@ class CosplayType extends AbstractType
             ->add('descriptioncp')
             ->add('personnage')
             ->add('imagecp')
-            ->add('datecreation')
+            ->add('datecreation', DateType::class, [
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd', // ou un autre format de date approprié
+            ])
            // ->add('nomma')
             ->add('idmateriaux')
             ->add('userid')

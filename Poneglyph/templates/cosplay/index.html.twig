@@ -3,14 +3,14 @@
 {% block title %}Cosplay index{% endblock %}
 
 {% block body %}
-    <h1>Cosplay index</h1>
+    <h1>Liste des cosplays</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Nomcp</th>
-                <th>Descriptioncp</th>
+                <th>Nom cosplay</th>
+                <th>Description</th>
                 <th>Personnage</th>
                 <th>Imagecp</th>
                 <th>Datecreation</th>
@@ -32,8 +32,9 @@
                 {# <td>{{ cosplay.nomma }}</td>#}
                 <td>{{ cosplay.idmateriaux }}</td>
                 <td>
-                    <a href="{{ path('app_cosplay_show', {'id': cosplay.id}) }}">show</a>
-                    <a href="{{ path('app_cosplay_edit', {'id': cosplay.id}) }}">edit</a>
+                    <a href="{{ path('app_cosplay_show', {'id': cosplay.id}) }}"class="btn btn-primary">show</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                   <button type="button" class="btn btn-danger ms-2" onclick="window.location='{{ path('app_cosplay_edit', {'id': cosplay.id}) }}'">Edit</button>
                 </td>
             </tr>
         {% else %}
