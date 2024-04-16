@@ -1,0 +1,81 @@
+{% extends 'back.html.twig' %}
+{% block facture %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<div class="container">
+    <Br>
+    <div class="w3-table w3-striped">
+        <table class="table table-bordered" id="Adback" style="background-color: white;">
+            <script src="{{ asset('/assets/js/jquery.min.js') }}"></script>
+            <input type="text" class="form-control" placeholder="Chercher" id="search2">
+            <br>
+            <thead class="w3-dark-grey">
+            <tr>
+                <th>Remise</th>
+                <th>Montant Avec Remise</th>
+                <th>Date_Facture</th>
+                <th>Livraison_Selecter</th>
+                <th>DELETE</th>
+                <th>EDIT</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for a in factures %}
+                <tr>
+                    <td>{{ a.remise }}</td>
+                    <td>{{ a.montantavecremise }}</td>
+                    <td>{{ a.datefacture | date('d/m/Y') }}</td>
+
+                     <td>
+                     {% if a.livraison is not null %}
+                     {{ a.livraison.getNomprenomclient }} - {{ a.livraison.getPrix }} - {{ a.livraison.getDate|date('Y-m-d') }} - {{ a.livraison.getQuantity }}
+                       {% else %}
+                N/A
+            {% endif %}</td>
+                    <td><a href="{{ path('deleteFacture',{'id':a.id}) }} ">
+                             <i class="fa fa-trash text-danger"></i></a>
+                             
+                    </td>                  
+                    <td>
+                        <a href="{{ path('updateFacture',{'id':a.id}) }}">
+                        <i class="fa fa-pencil-alt text-success"></i></a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+            <script>
+                $(document).ready(function(){
+                    $('#search2').keyup(function(){
+                        search_table($(this).val());
+                    });
+                    function search_table(value){
+                        $('#Adback tbody tr').each(function(){
+                            var found = 'false';
+                            $(this).each(function(){
+                                if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                                {
+                                    found = 'true';
+                                }
+                            });
+                            if(found == 'true')
+                            {
+                                $(this).show();
+
+                            }
+                            else
+                            {
+                                $(this).hide();
+
+                            }
+                        });
+                    }
+                });
+            </script>
+            </tbody>
+        </table>
+        <Br>
+        <Br>
+    </div>
+</div>
+
+{% endblock %}
