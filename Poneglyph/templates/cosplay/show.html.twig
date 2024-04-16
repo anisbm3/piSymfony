@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cosplay{% endblock %}
+
+{% block body %}
+    <h1>Cosplay</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cosplay.id }}</td>
+            </tr>
+            <tr>
+                <th>Nomcp</th>
+                <td>{{ cosplay.nomcp }}</td>
+            </tr>
+            <tr>
+                <th>Descriptioncp</th>
+                <td>{{ cosplay.descriptioncp }}</td>
+            </tr>
+            <tr>
+                <th>Personnage</th>
+                <td>{{ cosplay.personnage }}</td>
+            </tr>
+            <tr>
+                <th>Imagecp</th>
+                <td>{{ cosplay.imagecp }}</td>
+            </tr>
+            <tr>
+                <th>Datecreation</th>
+                <td>{{ cosplay.datecreation ? cosplay.datecreation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+           {# <tr>
+                <th>Nomma</th>
+                <td>{{ cosplay.nomma }}</td>
+            </tr> #}
+            <tr>
+                <th>Idmateriaux</th>
+                <td>{{ cosplay.idmateriaux.nomma }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_cosplay_index') }}">back to list</a>
+
+    <a href="{{ path('app_cosplay_edit', {'id': cosplay.id}) }}">edit</a>
+
+    {{ include('cosplay/_delete_form.html.twig') }}
+{% endblock %}

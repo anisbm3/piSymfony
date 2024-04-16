@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Cosplay{% endblock %}
+
+{% block body %}
+    <h1>Create new Cosplay</h1>
+
+    {{ include('cosplay/_form.html.twig') }}
+
+    <a href="{{ path('app_cosplay_index') }}">back to list</a>
+{% endblock %}
