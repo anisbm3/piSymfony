@@ -1,0 +1,41 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Debat index{% endblock %}
+
+{% block body %}
+    <h1>Debat index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>SujetDebat</th>
+                <th>DescriptionDebat</th>
+                <th>NomAnime</th>
+                <th>NoteAnime</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for debat in debats %}
+            <tr>
+                <td>{{ debat.id }}</td>
+                <td>{{ debat.SujetDebat }}</td>
+                <td>{{ debat.DescriptionDebat }}</td>
+                <td>{{ debat.NomAnime }}</td>
+                <td>{{ debat.NoteAnime }}</td>
+                <td>
+                    <a href="{{ path('app_debat_show', {'id': debat.id}) }}">show</a>
+                    <a href="{{ path('app_debat_edit', {'id': debat.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_debat_new') }}">Create new</a>
+{% endblock %}

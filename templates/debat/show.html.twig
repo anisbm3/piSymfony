@@ -1,0 +1,38 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Debat{% endblock %}
+
+{% block body %}
+    <h1>Debat</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ debat.id }}</td>
+            </tr>
+            <tr>
+                <th>SujetDebat</th>
+                <td>{{ debat.SujetDebat }}</td>
+            </tr>
+            <tr>
+                <th>DescriptionDebat</th>
+                <td>{{ debat.DescriptionDebat }}</td>
+            </tr>
+            <tr>
+                <th>NomAnime</th>
+                <td>{{ debat.NomAnime }}</td>
+            </tr>
+            <tr>
+                <th>NoteAnime</th>
+                <td>{{ debat.NoteAnime }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_debat_index') }}">back to list</a>
+
+    <a href="{{ path('app_debat_edit', {'id': debat.id}) }}">edit</a>
+
+    {{ include('debat/_delete_form.html.twig') }}
+{% endblock %}

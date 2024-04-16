@@ -1,0 +1,11 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}New Debat{% endblock %}
+
+{% block body %}
+    <h1>Create new Debat</h1>
+
+    {{ include('debat/_form.html.twig') }}
+
+    <a href="{{ path('app_debat_index') }}">back to list</a>
+{% endblock %}
