@@ -10,10 +10,47 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\PdfGeneratorService;
 
 #[Route('/evenement')]
 class EvenementController extends AbstractController
 {
+
+
+    #[Route('/show_in_map/{id}', name: 'app_evenement_map', methods: ['GET'])]
+    public function Map( Evenement $id,EntityManagerInterface $entityManager ): Response
+    {
+
+        $id = $entityManager
+            ->getRepository(Evenement::class)->findBy( 
+                ['id'=>$id ]
+            );
+        return $this->render('evenement/api_arcgis.html.twig', [
+            'evenements' => $id,
+        ]);
+    }
+
+    #[Route('/pdf', name: 'generator_service3')]
+    public function pdfService(): Response
+    { 
+        $evenements= $this->getDoctrine()
+        ->getRepository(Evenement::class)
+        ->findAll();
+
+   
+
+        $html =$this->renderView('pdf/indexevenement.html.twig', ['evenements' => $evenements]);
+        $pdfGeneratorService=new PdfGeneratorService();
+        $pdf = $pdfGeneratorService->generatePdf($html);
+
+        return new Response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="document.pdf"',
+        ]);
+
+    }
+
+
     #[Route('/', name: 'app_evenement_index', methods: ['GET','POST'])]
     public function index(EntityManagerInterface $entityManager,EvenementRepository $evenementRepository,Request $request): Response
     {
@@ -21,9 +58,7 @@ class EvenementController extends AbstractController
         ->getRepository(Evenement::class)
         ->findAll();
 
-        /////////
         $back = null;
-        
         if($request->isMethod("POST")){
             if ( $request->request->get('optionsRadios')){
                 $SortKey = $request->request->get('optionsRadios');
@@ -31,16 +66,12 @@ class EvenementController extends AbstractController
                     case 'NomEvent':
                         $evenements = $evenementRepository->SortByNomEvent();
                         break;
-
                     case 'LieuEvent':
                         $evenements = $evenementRepository->SortByLieuEvent();
                         break;
-
                     case 'DateEvent':
                         $evenements = $evenementRepository->SortByDateEvent();
                         break;
-
-
                 }
             }
             else
@@ -51,17 +82,12 @@ class EvenementController extends AbstractController
                     case 'NomEvent':
                         $evenements = $evenementRepository->findByNomEvent($value);
                         break;
-
                     case 'LieuEvent':
                         $evenements = $evenementRepository->findByLieuEvent($value);
                         break;
-
                     case 'DateEvent':
                         $evenements = $evenementRepository->findByDateEvent($value);
                         break;
-
-          
-
                 }
             }
 
