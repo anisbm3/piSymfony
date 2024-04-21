@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CosplayRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Cascade;
 
 #[ORM\Entity(repositoryClass: CosplayRepository::class)]
 class Cosplay
@@ -42,8 +43,9 @@ class Cosplay
     )]    
     private ?string $personnage = null;
 
-    #[ORM\Column(length: 300)]
-    private ?string $imagecp = null;
+    #[ORM\Column(length: 300  )]
+
+    private ?string $imagecp= null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
    

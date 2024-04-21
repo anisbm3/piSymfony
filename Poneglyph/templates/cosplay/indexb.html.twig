@@ -1,4 +1,4 @@
-{% extends 'base-front.html.twig' %}
+{% extends 'base-back.html.twig' %}
 
 {% block title %}Cosplay index{% endblock %}
 
@@ -27,7 +27,7 @@
                 <td>{{ cosplay.nomcp }}</td>
                 <td>{{ cosplay.descriptioncp }}</td>
                 <td>{{ cosplay.personnage }}</td>
-               <td><img src="{{ asset('uploads/' ~ cosplay.imagecp) }}" alt="Image du cosplay" width="100" height="100"></td>
+                <td>{{ cosplay.imagecp }}</td>
                 <td>{{ cosplay.datecreation ? cosplay.datecreation|date('Y-m-d H:i:s') : '' }}</td>
                 {# <td>{{ cosplay.nomma }}</td>#}
                 <td>{{ cosplay.idmateriaux }}</td>

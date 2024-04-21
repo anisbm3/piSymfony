@@ -5,7 +5,7 @@
   <!-- Basic Page Needs
 ================================================== -->
   <meta charset="utf-8">
-  <title>Constra - Construction Html5 Template</title>
+  <title> {% block title %}Laugh Tale {% endblock %}</title>
 
   <!-- Mobile Specific Metas
 ================================================== -->
@@ -17,11 +17,12 @@
 
   <!-- Favicon
 ================================================== -->
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="icon" type="{{asset ('frontOffice/image/png')}}" href="{{asset ('frontOffice/images/favicon.png')}}">
 
   <!-- CSS
 ================================================== -->
   <!-- Bootstrap -->
+  {% block stylesheets %}
   <link rel="stylesheet" href="{{asset ('frontOffice/plugins/bootstrap/bootstrap.min.css')}}">
   <!-- FontAwesome -->
   <link rel="stylesheet" href="{{asset ('frontOffice/plugins/fontawesome/css/all.min.css')}}">
@@ -29,12 +30,12 @@
   <link rel="stylesheet" href="{{asset ('frontOffice/plugins/animate-css/animate.css')}}">
   <!-- slick Carousel -->
   <link rel="stylesheet" href="{{asset ('frontOffice/plugins/slick/slick.css')}} ">
-  <link rel="stylesheet" href="plugins/slick/slick-theme.css">
+  <link rel="stylesheet" href="{{asset ('frontOffice/plugins/slick/slick-theme.css')}}">
   <!-- Colorbox -->
-  <link rel="stylesheet" href="plugins/colorbox/colorbox.css">
+  <link rel="stylesheet" href="{{asset ('frontOffice/plugins/colorbox/colorbox.css')}}">
   <!-- Template styles-->
-  <link rel="stylesheet" href="css/style.css">
-
+  <link rel="stylesheet" href="{{asset ('frontOffice/css/style.css')}}">
+ {% endblock %}
 </head>
 <body>
   <div class="body-inner">
@@ -84,7 +85,7 @@
             <div class="logo col-lg-3 text-center text-lg-left mb-3 mb-md-5 mb-lg-0">
               <a class="d-block" href="index.html">
                   <span class="logo-text anime-font">Laugh Tale</span>
-                  <img loading="lazy" src="images/logo.png" alt="Laugh_Tale">
+                  <img loading="lazy" src="{{asset ('frontOffice/images/logo.png')}}" alt="Laugh_Tale">
               </a>
           </div><!-- logo end -->
           
@@ -93,7 +94,7 @@
                   <li>
                     <div class="info-box">
                       <div class="info-box-content">
-                          <p class="info-box-title">Coontactez nous</p>
+                          <p class="info-box-title">Contactez nous</p>
                           <p class="info-box-subtitle">(+216) 53796961</p>
                       </div>
                     </div>
@@ -102,7 +103,7 @@
                     <div class="info-box">
                       <div class="info-box-content">
                           <p class="info-box-title">Email </p>
-                          <p class="info-box-subtitle">anis.benmehrez@esprit.tn</p>
+                          <p class="info-box-subtitle">Poneglyphe@esprit.tn</p>
                       </div>
                     </div>
                   </li>
@@ -133,7 +134,7 @@
                 <div id="navbar-collapse" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav mr-auto">
                       <li class="nav-item dropdown active">
-                          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Home <i class="fa fa-angle-down"></i></a>
+                          <a href="{{ path('app_home') }}" class="nav-link dropdown-toggle" data-toggle="dropdown">Home <i class="fa fa-angle-down"></i></a>
                           <ul class="dropdown-menu" role="menu">
                             <li class="active"><a href="index.html">Home One</a></li>
                             <li><a href="index-2.html">Home Two</a></li>
@@ -152,7 +153,7 @@
                       </li>
               
                       <li class="nav-item dropdown">
-                          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Cosplays <i class="fa fa-angle-down"></i></a>
+                          <a href="{{ path('app_cosplay_index') }}" class="nav-link dropdown-toggle" data-toggle="dropdown">Cosplays <i class="fa fa-angle-down"></i></a>
                           <ul class="dropdown-menu" role="menu">
                             <li><a href="projects.html">Projects All</a></li>
                             <li><a href="projects-single.html">Projects Single</a></li>
@@ -223,7 +224,7 @@
 <!--/ Header end -->
 
 <div class="banner-carousel banner-carousel-1 mb-0">
-  <div class="banner-carousel-item" style="background-image:url(images/slider-main/bg1.jpg)">
+  <div class="banner-carousel-item" style="background-image:url({{asset ('frontOffice/images/slider-main/bg1.jpg)')}}">
     <div class="slider-content">
         <div class="container h-100">
           <div class="row align-items-center h-100">
@@ -240,7 +241,7 @@
     </div>
   </div>
 
-  <div class="banner-carousel-item" style="background-image:url(images/slider-main/bg2.jpg)">
+  <div class="banner-carousel-item" style="background-image:url({{asset ('frontOffice/images/slider-main/bg2.jpg)')}}">
     <div class="slider-content text-left">
         <div class="container h-100">
           <div class="row align-items-center h-100">
@@ -257,7 +258,7 @@
     </div>
   </div>
 
-  <div class="banner-carousel-item" style="background-image:url(images/slider-main/bg3.jpg)">
+  <div class="banner-carousel-item" style="background-image:url({{asset ('frontOffice/images/slider-main/bg3.jpg)')}}">
     <div class="slider-content text-right">
         <div class="container h-100">
           <div class="row align-items-center h-100">
@@ -294,9 +295,11 @@
     </div><!-- Action style box -->
   </div><!-- Container end -->
 </section><!-- Action end -->
-
+ {% block body %}
 <section id="ts-features" class="ts-features">
   <div class="container">
+   
+              
     <div class="row">
         <div class="col-lg-6">
           
@@ -399,7 +402,7 @@
         <div class="row">
           <div class="col-md-3 col-sm-6 ts-facts">
               <div class="ts-facts-img">
-                <img loading="lazy" src="images/icon-image/fact1.png" alt="facts-img">
+                <img loading="lazy" src="{{asset ('frontOffice/images/icon-image/fact1.png')}}" alt="facts-img">
               </div>
               <div class="ts-facts-content">
                 <h2 class="ts-facts-num"><span class="counterUp" data-count="18">0</span></h2>
@@ -409,7 +412,7 @@
 
           <div class="col-md-3 col-sm-6 ts-facts mt-5 mt-sm-0">
               <div class="ts-facts-img">
-                <img loading="lazy" src="images/icon-image/fact2.png" alt="facts-img">
+                <img loading="lazy" src="{{asset ('frontOffice/images/icon-image/fact2.png')}}" alt="facts-img">
               </div>
               <div class="ts-facts-content">
                 <h2 class="ts-facts-num"><span class="counterUp" data-count="6">0</span></h2>
@@ -419,7 +422,7 @@
 
           <div class="col-md-3 col-sm-6 ts-facts mt-5 mt-md-0">
               <div class="ts-facts-img">
-                <img loading="lazy" src="images/icon-image/fact3.png" alt="facts-img">
+                <img loading="lazy" src="{{asset ('frontOffice/images/icon-image/fact3.png')}}" alt="facts-img">
               </div>
               <div class="ts-facts-content">
                 <h2 class="ts-facts-num"><span class="counterUp" data-count="400">0</span></h2>
@@ -429,7 +432,7 @@
 
           <div class="col-md-3 col-sm-6 ts-facts mt-5 mt-md-0">
               <div class="ts-facts-img">
-                <img loading="lazy" src="images/icon-image/fact4.png" alt="facts-img">
+                <img loading="lazy" src="{{asset ('frontOffice/images/icon-image/fact4.png')}}" alt="facts-img">
               </div>
               <div class="ts-facts-content">
                 <h2 class="ts-facts-num"><span class="counterUp" data-count="5">0</span></h2>
@@ -458,7 +461,7 @@
         <div class="col-lg-4">
           <div class="ts-service-box d-flex">
               <div class="ts-service-box-img">
-                <img loading="lazy" src="images/icon-image/service-icon1.png" alt="service-icon">
+                <img loading="lazy" src="{{asset ('frontOffice/images/icon-image/service-icon1.png')}}" alt="service-icon">
               </div>
               <div class="ts-service-box-info">
                 <h3 class="service-box-title"><a href="#">Developper les relations entre les fans</a></h3>
@@ -468,7 +471,7 @@
 
           <div class="ts-service-box d-flex">
               <div class="ts-service-box-img">
-                <img loading="lazy" src="images/icon-image/service-icon2.png" alt="service-icon">
+                <img loading="lazy" src="{{asset ('frontOffice/images/icon-image/service-icon2.png')}}" alt="service-icon">
               </div>
               <div class="ts-service-box-info">
                 <h3 class="service-box-title"><a href="#">Créer des communautés</a></h3>
@@ -478,7 +481,7 @@
 
           <div class="ts-service-box d-flex">
               <div class="ts-service-box-img">
-                <img loading="lazy" src="images/icon-image/service-icon3.png"  alt="service-icon">
+                <img loading="lazy" src="{{asset ('frontOffice/images/icon-image/service-icon3.png')}}"  alt="service-icon">
               </div>
               <div class="ts-service-box-info">
                 <h3 class="service-box-title"><a href="#">Organizer des évenements</a></h3>
@@ -489,13 +492,13 @@
         </div><!-- Col end -->
 
         <div class="col-lg-4 text-center">
-          <img loading="lazy" class="img-fluid" src="images/services/service-center.jpg" alt="service-avater-image">
+          <img loading="lazy" class="img-fluid" src="{{asset ('frontOffice/images/services/service-center.jpg')}}" alt="service-avater-image">
         </div><!-- Col end -->
 
         <div class="col-lg-4 mt-5 mt-lg-0 mb-4 mb-lg-0">
           <div class="ts-service-box d-flex">
               <div class="ts-service-box-img">
-                <img loading="lazy" src="images/icon-image/service-icon4.png" alt="service-icon">
+                <img loading="lazy" src="{{asset ('frontOffice/images/icon-image/service-icon4.png')}}" alt="service-icon">
               </div>
               <div class="ts-service-box-info">
                 <h3 class="service-box-title"><a href="#">Faire des competitions de cosplays</a></h3>
@@ -505,7 +508,7 @@
 
           <div class="ts-service-box d-flex">
               <div class="ts-service-box-img">
-                <img loading="lazy" src="images/icon-image/service-icon5.png" alt="service-icon">
+                <img loading="lazy" src="{{asset ('frontOffice/images/icon-image/service-icon5.png')}}" alt="service-icon">
               </div>
               <div class="ts-service-box-info">
                 <h3 class="service-box-title"><a href="#">Vendre des produits amis de la nature</a></h3>
@@ -515,7 +518,7 @@
 
           <div class="ts-service-box d-flex">
               <div class="ts-service-box-img">
-                <img loading="lazy" src="images/icon-image/service-icon6.png" alt="service-icon">
+                <img loading="lazy" src="{{asset ('frontOffice/images/icon-image/service-icon6.png')}}" alt="service-icon">
               </div>
               <div class="ts-service-box-info">
                 <h3 class="service-box-title"><a href="#">Organiser des debats</a></h3>
@@ -544,7 +547,7 @@
                     </span>
 
                     <div class="quote-item-footer">
-                      <img loading="lazy" class="testimonial-thumb" src="images/clients/testimonial1.png" alt="testimonial">
+                      <img loading="lazy" class="testimonial-thumb" src="{{asset ('frontOffice/images/clients/testimonial1.png')}}" alt="testimonial">
                       <div class="quote-item-info">
                           <h3 class="quote-author">Gabriel Denis</h3>
                           <span class="quote-subtext">Chairman, OKT</span>
@@ -561,7 +564,7 @@
                     </span>
 
                     <div class="quote-item-footer">
-                      <img loading="lazy" class="testimonial-thumb" src="images/clients/testimonial2.png" alt="testimonial">
+                      <img loading="lazy" class="testimonial-thumb" src="{{asset ('frontOffice/images/clients/testimonial2.png')}}" alt="testimonial">
                       <div class="quote-item-info">
                           <h3 class="quote-author">Weldon Cash</h3>
                           <span class="quote-subtext">CFO, First Choice</span>
@@ -578,7 +581,7 @@
                     </span>
 
                     <div class="quote-item-footer">
-                      <img loading="lazy" class="testimonial-thumb" src="images/clients/testimonial3.png" alt="testimonial">
+                      <img loading="lazy" class="testimonial-thumb" src="{{asset ('frontOffice/images/clients/testimonial3.png')}}" alt="testimonial">
                       <div class="quote-item-info">
                           <h3 class="quote-author">Minter Puchan</h3>
                           <span class="quote-subtext">Director, AKT</span>
@@ -635,7 +638,7 @@
           <div class="latest-post">
               <div class="latest-post-media">
                 <a href="news-single.html" class="latest-post-img">
-                    <img loading="lazy" class="img-fluid" src="images/news/news1.jpg" alt="img">
+                    <img loading="lazy" class="img-fluid" src="{{asset ('frontOffice/images/news/news1.jpg')}}" alt="img">
                 </a>
               </div>
               <div class="post-body">
@@ -655,7 +658,7 @@
           <div class="latest-post">
               <div class="latest-post-media">
                 <a href="news-single.html" class="latest-post-img">
-                    <img loading="lazy" class="img-fluid" src="images/news/news2.jpg" alt="img">
+                    <img loading="lazy" class="img-fluid" src="{{asset ('frontOffice/images/news/news2.jpg')}}" alt="img">
                 </a>
               </div>
               <div class="post-body">
@@ -675,7 +678,7 @@
           <div class="latest-post">
               <div class="latest-post-media">
                 <a href="news-single.html" class="latest-post-img">
-                    <img loading="lazy" class="img-fluid" src="images/news/news3.jpg" alt="img">
+                    <img loading="lazy" class="img-fluid" src="{{asset ('frontOffice/images/news/news3.jpg')}}" alt="img">
                 </a>
               </div>
               <div class="post-body">
@@ -701,14 +704,14 @@
   <!--/ Container end -->
 </section>
 <!--/ News end -->
-
+ {% endblock %} 
   <footer id="footer" class="footer bg-overlay">
     <div class="footer-main">
       <div class="container">
         <div class="row justify-content-between">
           <div class="col-lg-4 col-md-6 footer-widget footer-about">
             <h3 class="widget-title">Nous</h3>
-            <img loading="lazy" width="200px" class="footer-logo" src="images/logo.png" alt="Constra">
+            <img loading="lazy" width="200px" class="footer-logo" src="{{asset ('frontOffice/images/logo.png')}}" alt="Constra">
             <p>La famille qui réunit tous les fans de l'anime et leur crée un paradis ou ils peuvent pratiquer leurs passions </p>
               
             </div></p>
@@ -735,7 +738,7 @@
 
   <!-- Javascript Files
   ================================================== -->
-
+{% block javascripts %}
   <!-- initialize jQuery Library -->
   <script src="plugins/jQuery/jquery.min.js"></script>
   <!-- Bootstrap jQuery -->
@@ -758,6 +761,7 @@
   <script src="js/script.js"></script>
 
   </div><!-- Body inner end -->
+    {% endblock %}
   </body>
 
   </html>

@@ -7,22 +7,34 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 class CosplayType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nomcp')
-            ->add('descriptioncp')
-            ->add('personnage')
-            ->add('imagecp')
-            ->add('datecreation', DateType::class, [
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd', 
-            ])
+        ->add('nomcp', null, [
+            'label' => 'Nom du Cosplay',
+        ])
+             ->add('descriptioncp', null, [
+            'label' => 'Description du Cosplay',
+        ])
+        ->add('personnage', null, [
+            'label' => 'Personnage',
+        ])
+        ->add('imagecp', FileType::class, [
+            'label' => 'Image du Cosplay',
+            'required' => true, 
+            'mapped' => false,])
+        ->add('datecreation', DateType::class, [
+            'label' => 'Date de création',
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd', 
+        ])
            // ->add('nomma')
-            ->add('idmateriaux')
+           ->add('idmateriaux', null, [
+            'label' => 'Matériaux',
+        ]);
            // ->add('userid')
         ;
     }

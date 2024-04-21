@@ -1,11 +1,174 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-front.html.twig' %}
 
 {% block title %}New Cosplay{% endblock %}
 
 {% block body %}
-    <h1>Ajouter Cosplay</h1>
+<main>
+        <article>
+            <div class="supplement-details-container">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2 center-content">
+                        <h1>Ajouter Post Cosplay</h1>
+                      
+                        {{ form_start(form, {'attr': {'class': 'supplement-form', 'name': 'supplementForm', 'enctype': 'multipart/form-data'}}) }}
+                        <div class="form-group">
+                            <label for="nomcp" class="supplement-label">Nom du Cosplay</label>
+                            {{ form_widget(form.nomcp, {'attr': {'class': 'form-control supplement-nom', 'placeholder' : 'Nom du Cosplay' }}) }}
+                            {{ form_errors(form.nomcp,{'attr':{'class':'text-danger'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="descriptioncp" class="supplement-label">Description du Cosplay</label>
+                            {{ form_widget(form.descriptioncp, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Description du Cosplay' }}) }}
+                            {{ form_errors(form.descriptioncp,{'attr':{'class':'text-danger'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="personnage" class="supplement-label">Personnage </label>
+                            {{ form_widget(form.personnage, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Personnage du Cosplay' }}) }}
+                            {{ form_errors(form.personnage,{'attr':{'class':'text-danger'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="imagecp" class="supplement-label">Image Cosplay</label>
+                            {{ form_widget(form.imagecp, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Description du Cosplay' }}) }}
+                            {{ form_errors(form.imagecp,{'attr':{'class':'text-danger'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="datecreation" class="supplement-label">Date de creation  Cosplay</label>
+                            {{ form_widget(form.datecreation, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Description du Cosplay' }}) }}
+                            {{ form_errors(form.datecreation,{'attr':{'class':'text-danger'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="idmateriaux" class="supplement-label">Matériaux</label>
+                            {{ form_widget(form.idmateriaux, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Description du Cosplay' }}) }}
+                            {{ form_errors(form.idmateriaux,{'attr':{'class':'text-danger'}}) }}
+                        </div>
+                        
 
-    {{ include('cosplay/_form.html.twig') }}
-
-    <a href="{{ path('app_cosplay_index') }}">back to list</a>
+                        <div class="buttons">
+                             {{ include('cosplay/_form.html.twig') }}
+                            <a href="{{ path('app_cosplay_index') }}" class="btn btn-back" id="backToList">Back to list</a>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+    
 {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        
+       .supplement-details-container {
+            max-width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .supplement-details-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+
+        .supplement-details-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+        }
+
+        .supplement-details-table th, .supplement-details-table td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .supplement-details-table th {
+            background-color: #31353D;
+            font-weight: bold;
+            color: #DDDDDD;
+            text-align: left;
+        }
+
+        .supplement-details-table td {
+            background-color: #fff;
+            color: #495057;
+        }
+
+        .supplement-details-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .supplement-details-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .supplement-details-table td img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-container button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-container button a {
+            color: white;
+            text-decoration: none;
+        }
+
+       .btn-back {
+            background-color: #cccccc; /* Default fill color */
+            border-color: #cccccc; /* Default border color */
+        }
+
+        .btn-back:hover {
+            background-color: transparent; /* Fill color on hover */
+            border-color:#cccccc ; /* Border color on hover */
+        }
+        .btn-edit {
+            background-color: #28a745;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+        }
+
+        .btn-container button:hover {
+            opacity: 0.8;
+        }
+
+        .btn a {
+            color: white;
+            text-decoration: none;
+            margin-right: 10px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover a {
+            color: #fff;
+        }
+    </style>  
+{% endblock %}
+
+    
+

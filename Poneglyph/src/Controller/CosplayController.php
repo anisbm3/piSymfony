@@ -7,6 +7,7 @@ use App\Form\CosplayType;
 use App\Repository\CosplayRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,6 +22,13 @@ class CosplayController extends AbstractController
             'cosplays' => $cosplayRepository->findAll(),
         ]);
     }
+    #[Route('/b', name: 'app_cosplay_indexb', methods: ['GET'])]
+    public function indexb(CosplayRepository $cosplayRepository): Response
+    {
+        return $this->render('cosplay/indexb.html.twig', [
+            'cosplays' => $cosplayRepository->findAll(),
+        ]);
+    }
 
     #[Route('/new', name: 'app_cosplay_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -30,6 +38,18 @@ class CosplayController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // ON recupere les images transmises 
+         
+            $image = $form->get('imagecp')->getData();
+           
+             //on genere  unnouveau nom  de fichier 
+             $fichier=  md5(uniqid()).'.'.$image->guessExtension();
+             //On copie le fichier dans le dossier uploads 
+             $image->move(
+                $this->getParameter('images_directory'),
+                $fichier);
+             $cosplay->setImagecp($fichier);
+            
             $entityManager->persist($cosplay);
             $entityManager->flush();
 
