@@ -4,6 +4,7 @@
 
 {% block body %}
     <h1>Edit Produits</h1>
+    {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
 
     {{ include('produits/_form.html.twig', {'button_label': 'Update'}) }}
 

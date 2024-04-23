@@ -5,6 +5,27 @@
 {% block body %}
     <h1>Produits index</h1>
 
+    {# Formulaire de recherche et de tri #}
+    <form action="{{ path('app_produits_index') }}" method="get">
+        <div>
+            <label for="search">Rechercher par Nom :</label>
+            <input type="text" id="search" name="Nom" value="{{ app.request.query.get('Nom') }}" />
+        </div>
+        <div>
+            <label for="tri">Trier par :</label>
+            <select id="tri" name="tri">
+                <option value="Nom" {% if app.request.query.get('tri') == 'Nom' %}selected{% endif %}>Nom</option>
+                <option value="Prix" {% if app.request.query.get('tri') == 'Prix' %}selected{% endif %}>Prix</option>
+                <option value="Stock" {% if app.request.query.get('tri') == 'Stock' %}selected{% endif %}>Stock</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Rechercher</button>
+        </div>
+    </form>
+
+    <hr>
+
     <table class="table">
         <thead>
             <tr>
@@ -39,7 +60,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_produits_new') }}">Create new</a>
+    <a href="{{ path('app_produits_new') }}">Créer un nouveau produit</a>
     <a href="{{ path('app_panier_indexback') }}">Afficher les paniers</a>
-
 {% endblock %}

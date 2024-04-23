@@ -66,4 +66,18 @@ class ProduitsRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+
+public function searchAndSort($nom, $tri)
+{
+    return $this->createQueryBuilder('p')
+        ->andWhere('p.Nom LIKE :nom')
+        ->setParameter('nom', '%'.$nom.'%')
+        ->orderBy('p.'.$tri)
+        ->getQuery()
+        ->getResult();
+}
+
+
 }

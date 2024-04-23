@@ -199,7 +199,23 @@ class PanierController extends AbstractController
 
         ]);
     }
+
+   
+    
+     /**
+     * @Route("/paiement", name="paiement")
+     */
+    public function paiement(): Response
+    {
+        // Vous pouvez ajouter du code ici si nécessaire pour la page de paiement
+        // Par exemple, récupérer les informations du panier, afficher un récapitulatif, etc.
+        return $this->render('stripe/index.html.twig');
+    }
+    
+    
 }
+
+
 
     
    
