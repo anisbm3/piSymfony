@@ -1,49 +1,170 @@
 {% extends 'base-front.html.twig' %}
 
-{% block title %}Cosplay index{% endblock %}
+{% block title %}Cosplayindex{% endblock %}
+
 
 {% block body %}
-    <h1>Liste des cosplays</h1>
+<style>
+.add-post-link {
+    font-family: Arial, sans-serif;
+        background-color: #FFD166;
+        color: #172A3A;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+}
+</style>
+<section id="main-container" class="main-container">
+  <div class="container">
+  
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom cosplay</th>
-                <th>Description</th>
-                <th>Personnage</th>
-                <th>Imagecp</th>
-                <th>Datecreation</th>
-               {# <th>Nomma</th>#}
+    <div class="row">
 
-<th>Nom Material</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for cosplay in cosplays %}
-            <tr>
-                <td>{{ cosplay.id }}</td>
+      <div class="col-lg-4 order-1 order-lg-0">
+
+        <div class="sidebar sidebar-left">
+          <div class="widget recent-posts">
+            <h3 class="widget-title">Recent Posts</h3>
+            <ul class="list-unstyled">
+ {% for cosplay in cosplays %}
+              <li class="d-flex align-items-center">
+                <div class="posts-thumb">
+                   <td><img src="{{ asset('uploads/' ~ cosplay.imagecp) }}" alt="Image du cosplay" width="50" height="300"></td>
+
+                </div>
+                <div class="post-info">
+                  <h4 class="entry-title">
+                    <a href="#"> <td>{{ cosplay.nomcp }}</td></a>
+                  </h4>
+                </div>
+              </li><!-- 1st post end-->
+
+                {% endfor %}
+              
+
+            </ul>
+
+          </div><!-- Recent post end -->
+
+          <div class="widget">
+            <h3 class="widget-title">Categories</h3>
+            <ul class="arrow nav nav-tabs">
+              <li><a href="#">Construction</a></li>
+              <li><a href="#">Commercial</a></li>
+              <li><a href="#">Building</a></li>
+              <li><a href="#">Safety</a></li>
+              <li><a href="#">Structure</a></li>
+            </ul>
+          </div><!-- Categories end -->
+
+          <div class="widget">
+            <h3 class="widget-title">Archives </h3>
+            <ul class="arrow nav nav-tabs">
+              <li><a href="#">Feburay 2016</a></li>
+              <li><a href="#">January 2016</a></li>
+              <li><a href="#">December 2015</a></li>
+              <li><a href="#">November 2015</a></li>
+              <li><a href="#">October 2015</a></li>
+            </ul>
+          </div><!-- Archives end -->
+
+          <div class="widget widget-tags">
+            <h3 class="widget-title">Tags </h3>
+
+            <ul class="list-unstyled">
+              <li><a href="#">Construction</a></li>
+              <li><a href="#">Design</a></li>
+              <li><a href="#">Project</a></li>
+              <li><a href="#">Building</a></li>
+              <li><a href="#">Finance</a></li>
+              <li><a href="#">Safety</a></li>
+              <li><a href="#">Contracting</a></li>
+              <li><a href="#">Planning</a></li>
+            </ul>
+          </div><!-- Tags end -->
+
+
+        </div><!-- Sidebar end -->
+      </div><!-- Sidebar Col end -->
+
+      <div class="col-lg-8 mb-5 mb-lg-0 order-0 order-lg-1">
+              <div class="post-add">
+    <a href="{{ path('app_cosplay_new') }}" class="add-post-link" style="background-color: #FFD166; color: #172A3A; padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+        <i class="fas fa-plus-circle fa-lg" style="margin-right: 5px;"></i> Ajouter  post
+    </a>
+</div>
+
+                        &nbsp;&nbsp;
+      {% for cosplay in cosplays %}
+        <div class="post">
+          <div class="post-media post-image">
+            <td><img src="{{ asset('uploads/' ~ cosplay.imagecp) }}" alt="Image du cosplay" width="510" height="510"></td>
+          </div>
+
+          <div class="post-body">
+            <div class="entry-header">
+              <div class="post-meta">
+                <span class="post-author">
+                  <i class="far fa-user"></i><a href="#"> Admin</a>
+                </span>
+                <span class="post-cat">
+                 <i class="far fa-heart"></i> Fabriqué avec <td>{{ cosplay.idmateriaux }}</td>
+                </span>
+                
+               <span class="post-meta-date">
+               <i class="far fa-calendar"></i> 
+                {{ cosplay.datecreation ? cosplay.datecreation|date('F d, Y') : '' }}
+                
+               </span>
+              
+
+                <span class="post-comment"><i class="far fa-heart"></i> 03
+                <a href="#" class="comments-link">Likes</a></span>
+               </div>
+              <h2 class="entry-title">
                 <td>{{ cosplay.nomcp }}</td>
-                <td>{{ cosplay.descriptioncp }}</td>
-                <td>{{ cosplay.personnage }}</td>
-               <td><img src="{{ asset('uploads/' ~ cosplay.imagecp) }}" alt="Image du cosplay" width="100" height="100"></td>
-                <td>{{ cosplay.datecreation ? cosplay.datecreation|date('Y-m-d H:i:s') : '' }}</td>
-                {# <td>{{ cosplay.nomma }}</td>#}
-                <td>{{ cosplay.idmateriaux }}</td>
-                <td>
-                    <a href="{{ path('app_cosplay_show', {'id': cosplay.id}) }}"class="btn btn-primary">show</a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                   <button type="button" class="btn btn-danger ms-2" onclick="window.location='{{ path('app_cosplay_edit', {'id': cosplay.id}) }}'">Edit</button>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+              </h2>
+            </div><!-- header end -->
 
-    <a href="{{ path('app_cosplay_new') }}">Create new</a>
+            <div class="entry-content">
+             <tr>
+                  <td>
+                     <span class="description">{{ cosplay.descriptioncp }}</span>
+                       
+                    </td>
+                  
+
+            </div>
+
+            <div class="post-footer">
+              <a href="{{ path('app_cosplay_show', {'id': cosplay.id}) }}" class="btn btn-primary">Continue Reading</a>
+            </div>
+
+          </div><!-- post-body end -->
+        </div><!-- 1st post end -->
+ {% else %}
+        <tr>
+            <td colspan="8">no records found</td>
+        </tr>
+        {% endfor %}
+        <nav class="paging" aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li>
+          </ul>
+        </nav>
+
+      </div><!-- Content Col end -->
+
+    </div><!-- Main row end -->
+
+       
+
+
+  </div><!-- Container end -->
+</section><!-- Main container end -->
+
 {% endblock %}

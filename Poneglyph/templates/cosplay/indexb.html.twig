@@ -3,21 +3,67 @@
 {% block title %}Cosplay index{% endblock %}
 
 {% block body %}
-    <h1>Liste des cosplays</h1>
+    <h1>Liste des Cosplays</h1>
+<style>
 
+.button {
+    background-color: #6c757d; /* Medium blue */
+    color: #fff; /* White text */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+
+ h1 {
+        font-family: Arial, sans-serif; 
+        font-size: 40px; 
+        color: #333; /* Specify the text color */
+        margin-bottom: 20px; /* Add some bottom margin for spacing */
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #001233; /* Dark blue background */
+        color: #fff; /* White text */
+    }
+
+    .table th, .table td {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #4827d5; /* Medium blue headers */
+    }
+
+    .table tbody tr:hover {
+        background-color: #6b51df; /* Light blue hover effect */
+        color: #fff; /* White text on hover */
+    }
+</style>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Nom cosplay</th>
-                <th>Description</th>
-                <th>Personnage</th>
-                <th>Imagecp</th>
-                <th>Datecreation</th>
+            <th>Id</th>
+            <th>Nom cosplay</th>
+            <th>Description</th>
+            <th>Personnage</th>
+            <th>Imagecp</th>
+            <th>Datecreation</th>
+            <th>Nom Material</th>
+            <th>actions</th>
+                
                {# <th>Nomma</th>#}
 
-<th>Nom Material</th>
-                <th>actions</th>
+
             </tr>
         </thead>
         <tbody>
@@ -27,14 +73,14 @@
                 <td>{{ cosplay.nomcp }}</td>
                 <td>{{ cosplay.descriptioncp }}</td>
                 <td>{{ cosplay.personnage }}</td>
-                <td>{{ cosplay.imagecp }}</td>
+                <td><img src="{{ asset('uploads/' ~ cosplay.imagecp) }}" alt="Image du cosplay" width="50" height="50"></td>
                 <td>{{ cosplay.datecreation ? cosplay.datecreation|date('Y-m-d H:i:s') : '' }}</td>
                 {# <td>{{ cosplay.nomma }}</td>#}
                 <td>{{ cosplay.idmateriaux }}</td>
                 <td>
-                    <a href="{{ path('app_cosplay_show', {'id': cosplay.id}) }}"class="btn btn-primary">show</a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                   <button type="button" class="btn btn-danger ms-2" onclick="window.location='{{ path('app_cosplay_edit', {'id': cosplay.id}) }}'">Edit</button>
+                    <a href="{{ path('app_cosplay_showb', {'id': cosplay.id}) }}"class="button">show</a>
+                  
+                   {#<button type="button" class="btn btn-danger ms-2" onclick="window.location='{{ path('app_cosplay_edit', {'id': cosplay.id}) }}'">Edit</button>#}
                 </td>
             </tr>
         {% else %}
@@ -45,5 +91,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_cosplay_new') }}">Create new</a>
+   
 {% endblock %}

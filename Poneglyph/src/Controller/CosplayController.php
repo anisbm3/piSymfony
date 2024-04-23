@@ -38,6 +38,8 @@ class CosplayController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            
             // ON recupere les images transmises 
          
             $image = $form->get('imagecp')->getData();
@@ -61,6 +63,37 @@ class CosplayController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/newb', name: 'app_cosplay_newb', methods: ['GET', 'POST'])]
+    public function newb(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $cosplay = new Cosplay();
+        $form = $this->createForm(CosplayType::class, $cosplay);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // ON recupere les images transmises 
+         
+            $image = $form->get('imagecp')->getData();
+           
+             //on genere  unnouveau nom  de fichier 
+             $fichier=  md5(uniqid()).'.'.$image->guessExtension();
+             //On copie le fichier dans le dossier uploads 
+             $image->move(
+                $this->getParameter('images_directory'),
+                $fichier);
+             $cosplay->setImagecp($fichier);
+            
+            $entityManager->persist($cosplay);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_cosplay_indexb', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('cosplay/newb.html.twig', [
+            'cosplay' => $cosplay,
+            'form' => $form,
+        ]);
+    }
 
     #[Route('/{id}', name: 'app_cosplay_show', methods: ['GET'])]
     public function show(Cosplay $cosplay): Response
@@ -71,9 +104,24 @@ class CosplayController extends AbstractController
         if ($idmateriaux === null) {
             // Handle the case where idmateriaux is null
             // For example, you could render an error message or redirect the user
-            return $this->redirectToRoute('error_page');
+            return $this->redirectToRoute('app_error', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('cosplay/show.html.twig', [
+            'cosplay' => $cosplay,
+        ]);
+    }
+    #[Route('/admin/cosplay/{id}', name: 'app_cosplay_showb', methods: ['GET'])]
+    public function showb(Cosplay $cosplay): Response
+    {
+        $idmateriaux = $cosplay->getIdmateriaux();
+
+        // If idmateriaux is null, handle the situation accordingly
+        if ($idmateriaux === null) {
+            // Handle the case where idmateriaux is null
+            // For example, you could render an error message or redirect the user
+            return $this->redirectToRoute('error_page');
+        }
+        return $this->render('cosplay/showb.html.twig', [
             'cosplay' => $cosplay,
         ]);
     }

@@ -56,6 +56,7 @@ class Cosplay
 
 
     #[ORM\ManyToOne(inversedBy: 'cosplay')]
+    #[Assert\NotBlank(message: 'Veuillez sélectionner un matériau.')]
     private ?Materiaux $idmateriaux = null;
 
     #[ORM\ManyToOne(inversedBy: 'cosplay')]

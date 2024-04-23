@@ -1,36 +1,51 @@
-{% extends 'base-back.html.twig' %}
+{% extends 'base-front.html.twig' %}
 
-{% block title %}New Materiaux{% endblock %}
+{% block title %}New Cosplay{% endblock %}
 
 {% block body %}
-    <h1>Ajout les Materiaux</h1>
 <main>
         <article>
             <div class="supplement-details-container">
                 <div class="row">
                     <div class="col-md-8 offset-md-2 center-content">
-                        
+                        <h1>Ajouter Post Cosplay</h1>
                       
                         {{ form_start(form, {'attr': {'class': 'supplement-form', 'name': 'supplementForm', 'enctype': 'multipart/form-data'}}) }}
                         <div class="form-group">
-                            <label for="nomcp" class="supplement-label">Nom Materiau</label>
-                            {{ form_widget(form.nomma, {'attr': {'class': 'form-control supplement-nom', 'placeholder' : 'Nom Materiau' }}) }}
-                            {{ form_errors(form.nomma,{'attr':{'class':'text-danger'}}) }}
+                            <label for="nomcp" class="supplement-label">Nom du Cosplay</label>
+                            {{ form_widget(form.nomcp, {'attr': {'class': 'form-control supplement-nom', 'placeholder' : 'Nom du Cosplay' }}) }}
+                            {{ form_errors(form.nomcp,{'attr':{'class':'text-danger'}}) }}
                         </div>
                         <div class="form-group">
-                            <label for="descriptioncp" class="supplement-label">Type Materiau</label>
-                            {{ form_widget(form.typema, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Type Materiau' }}) }}
-                            {{ form_errors(form.typema,{'attr':{'class':'text-danger'}}) }}
+                            <label for="descriptioncp" class="supplement-label">Description du Cosplay</label>
+                            {{ form_widget(form.descriptioncp, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Description du Cosplay' }}) }}
+                            {{ form_errors(form.descriptioncp,{'attr':{'class':'text-danger'}}) }}
                         </div>
                         <div class="form-group">
-                            <label for="personnage" class="supplement-label">Disponibilte</label>
-                            {{ form_widget(form.disponibilite , {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Où est-ce que je place ce matériau ' }}) }}
-                            {{ form_errors(form.disponibilite ,{'attr':{'class':'text-danger'}}) }}
+                            <label for="personnage" class="supplement-label">Personnage </label>
+                            {{ form_widget(form.personnage, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Personnage du Cosplay' }}) }}
+                            {{ form_errors(form.personnage,{'attr':{'class':'text-danger'}}) }}
                         </div>
-                       
+                        <div class="form-group">
+                            <label for="imagecp" class="supplement-label">Image Cosplay</label>
+                            {{ form_widget(form.imagecp, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Description du Cosplay' }}) }}
+                            {{ form_errors(form.imagecp,{'attr':{'class':'text-danger'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="datecreation" class="supplement-label">Date de creation  Cosplay</label>
+                            {{ form_widget(form.datecreation, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Description du Cosplay' }}) }}
+                            {{ form_errors(form.datecreation,{'attr':{'class':'text-danger'}}) }}
+                        </div>
+                        <div class="form-group">
+                            <label for="idmateriaux" class="supplement-label">Matériaux</label>
+                            {{ form_widget(form.idmateriaux, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Description du Cosplay' }}) }}
+                            {{ form_errors(form.idmateriaux,{'attr':{'class':'text-danger'}}) }}
+                        </div>
+                        
+
                         <div class="buttons">
                              {{ include('cosplay/_form.html.twig') }}
-                            <a href="{{ path('app_materiaux_index') }}" class="btn btn-back" id="backToList">Back to list</a>
+                            <a href="{{ path('app_cosplay_index') }}" class="btn btn-back" id="backToList">Back to list</a>
                         </div>
                         {{ form_end(form) }}
                     </div>
@@ -38,9 +53,10 @@
             </div>
         </article>
     </main>
-   
+    
 {% endblock %}
- {% block stylesheets %}
+
+{% block stylesheets %}
     {{ parent() }}
     <style>
         
@@ -153,3 +169,6 @@
         }
     </style>  
 {% endblock %}
+
+    
+
