@@ -33,7 +33,7 @@
                     <p><strong style="color:#696969" >Stock:</strong> {{ produit.Stock }}</p>
                     <p><strong style="color:#696969"> Category</strong> {{ produit.Category }}</p>
                     
-                    <form action="{{ path('app_panier_new', {'idproduits': produit.id, 'nomProduit': produit.Nom,'prixProduit':produit.Prix,  'quantity': 'quantity' }) }}" method="post">
+                    <form action="{{ path('app_panier_new', {'idproduits': produit.id, 'nomProduit': produit.Nom, 'prixProduit': produit.Prix, 'quantity': 'quantity', 'stock': produit.Stock }) }}" method="post">
                         <label for="quantity">Quantité:</label>
                         <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ produit.Stock }}" required>
                         <button type="submit" class="btn btn-primary">Ajouter Au panier</button>

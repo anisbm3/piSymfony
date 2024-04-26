@@ -41,7 +41,22 @@ class ProduitsRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
-   
+    public function findProduitByNom(string $nomProduit): ?Produits
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.Nom = :nom')
+            ->setParameter('nom', $nomProduit)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+    public function findProduitsEnRupture()
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.Stock < :stockMin')
+            ->setParameter('stockMin', 5)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Produits[] Returns an array of Produits objects
 //     */

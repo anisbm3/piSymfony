@@ -50,13 +50,29 @@ return $this->render('produits/index1.html.twig', [
     'produits' => $produits,
 ]);
 }
-    #[Route('/back', name: 'app_produits_indexback', methods: ['GET'])]
-    public function indexback(ProduitsRepository $produitsRepository): Response
-    {
-        return $this->render('produits/indexback.html.twig', [
-            'produits' => $produitsRepository->findAll(),
-        ]);
+#[Route('/back', name: 'app_produits_indexback', methods: ['GET'])]
+public function indexback(ProduitsRepository $produitsRepository): Response
+{
+    // Récupérer la liste des produits
+    $produits = $produitsRepository->findAll();
+
+    // Récupérer la liste des produits en rupture de stock
+    $produitsEnRupture = $produitsRepository->findProduitsEnRupture();
+
+    // Notification pour les produits en rupture de stock
+    if (!empty($produitsEnRupture)) {
+        $message = '';
+        foreach ($produitsEnRupture as $produitEnRupture) {
+            $message .= sprintf('%s est en rupture de stock. ', $produitEnRupture->getNom());
+        }
+        $this->addFlash('warning', $message);
     }
+
+    return $this->render('produits/indexback.html.twig', [
+        'produits' => $produits,
+        'produitsEnRupture' => $produitsEnRupture,
+    ]);
+}
 
 
     #[Route('/new', name: 'app_produits_new', methods: ['GET', 'POST'])]

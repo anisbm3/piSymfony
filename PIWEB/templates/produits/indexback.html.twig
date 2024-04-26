@@ -5,6 +5,13 @@
 {% block body %}
     <h1>Produits index</h1>
 
+    {# Afficher une notification pour les produits en rupture de stock #}
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     {# Formulaire de recherche et de tri #}
     <form action="{{ path('app_produits_index') }}" method="get">
         <div>
@@ -42,11 +49,11 @@
         {% for produit in produits %}
             <tr>
                 <td>{{ produit.id }}</td>
-                <td>{{ produit.Stock }}</td>
-                <td>{{ produit.Category }}</td>
-                <td>{{ produit.Nom }}</td>
-                <td>{{ produit.Prix }}</td>
-                <td>{{ produit.Description }}</td>
+                <td>{{ produit.stock }}</td>
+                <td>{{ produit.category }}</td>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.prix }}</td>
+                <td>{{ produit.description }}</td>
                 <td>
                     <a href="{{ path('app_produits_show', {'id': produit.id}) }}">show</a>
                     <a href="{{ path('app_produits_edit', {'id': produit.id}) }}">edit</a>

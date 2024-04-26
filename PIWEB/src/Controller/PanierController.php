@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Panier;
+use App\Entity\Produits;
 use App\Form\PanierType;
 use App\Form\Panier1Type;
 use App\Repository\PanierRepository;
@@ -26,15 +27,7 @@ class PanierController extends AbstractController
        
     }
   
-    
-    #[Route('/List', name: 'app_panier_List', methods: ['GET'])]
-    public function List(PanierRepository $panierRepository): Response
-    {
-        return $this->render('panier/index1.html.twig', [
-            'paniers' => $panierRepository->findAll(),
-        ]);
-    }
-    
+  
     #[Route('/back', name: 'app_panier_indexback', methods: ['GET'])]
     public function indexback(PanierRepository $panierRepository): Response
     {
@@ -42,45 +35,55 @@ class PanierController extends AbstractController
             'paniers' => $panierRepository->findAll(),
         ]);
     }
-    #[Route('/new1', name: 'app_panier_new1', methods: ['GET', 'POST'])]
-    public function new1(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        // Récupérer le nom du produit et le prix du produit à partir de la requête
-        $nomProduit = $request->query->get('nomProduit');
-        $prixProduit = $request->query->get('prixProduit');
-        $quantity = $request->request->get('quantity');
-       // $prixProduit = intval($request->query->get('prixProduit'));
 
-        // Créer une instance de Panier
-        $panier = new Panier();
+#[Route('/new1', name: 'app_panier_new1', methods: ['GET', 'POST'])]
+public function new1(Request $request, EntityManagerInterface $entityManager): Response
+{
+    // Récupérer le nom du produit et le prix du produit à partir de la requête
+    $nomProduit = $request->query->get('nomProduit');
+    $prixProduit = $request->query->get('prixProduit');
+    $quantity = $request->request->get('quantity');
+    $stockProduit = $request->query->get('stock');
+   // $prixProduit = intval($request->query->get('prixProduit'));
+   $produitRepository = $entityManager->getRepository(Produits::class);
+   $produit = $produitRepository->findProduitByNom($nomProduit);
+   $produit->setStock($produit->getStock() - $quantity);
 
-        // Créer le formulaire et passer le nom et le prix du produit en option
-        $form = $this->createForm(Panier1Type::class, $panier, [
-            'nom_produit' => $nomProduit,
-            'prix_produit' => $prixProduit*$quantity,
-            'quantity' => $quantity
-        ]);
+   // Enregistrer les modifications du produit dans la base de données
+   $entityManager->persist($produit);
+   $entityManager->flush();
+    // Créer une instance de Panier
+    $panier = new Panier();
 
-        // Gérer la soumission du formulaire
-        $form->handleRequest($request);
+    // Créer le formulaire et passer le nom et le prix du produit en option
+    $form = $this->createForm(Panier1Type::class, $panier, [
+        'nom_produit' => $nomProduit,
+        'prix_produit' => $prixProduit*$quantity,
+        'quantity' => $quantity,
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Traiter les données du formulaire
+    ]);
 
-            // Enregistrer le panier en base de données
-            $entityManager->persist($panier);
-            $entityManager->flush();
+    // Gérer la soumission du formulaire
+    $form->handleRequest($request);
 
-            // Rediriger l'utilisateur vers la page de l'index du panier
-            return $this->redirectToRoute('app_panier_index', [], Response::HTTP_SEE_OTHER);
-        }
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Traiter les données du formulaire
 
-        // Afficher le formulaire dans le template Twig
-        return $this->renderForm('panier/new.html.twig', [
-            'panier' => $panier,
-            'form' => $form,
-        ]);
+        // Enregistrer le panier en base de données
+        $entityManager->persist($panier);
+        $entityManager->flush();
+
+        // Rediriger l'utilisateur vers la page de l'index du panier
+        return $this->redirectToRoute('app_panier_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // Afficher le formulaire dans le template Twig
+    return $this->renderForm('panier/new.html.twig', [
+        'panier' => $panier,
+        'form' => $form,
+    ]);
+}
+
     #[Route('/new', name: 'app_panier_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -88,8 +91,15 @@ class PanierController extends AbstractController
         $nomProduit = $request->query->get('nomProduit');
         $prixProduit = $request->query->get('prixProduit');
         $quantity = $request->request->get('quantity');
+        $stockProduit = $request->query->get('stock');
        // $prixProduit = intval($request->query->get('prixProduit'));
+       $produitRepository = $entityManager->getRepository(Produits::class);
+       $produit = $produitRepository->findProduitByNom($nomProduit);
+       $produit->setStock($produit->getStock() - $quantity);
 
+       // Enregistrer les modifications du produit dans la base de données
+       $entityManager->persist($produit);
+       $entityManager->flush();
         // Créer une instance de Panier
         $panier = new Panier();
 
@@ -97,7 +107,8 @@ class PanierController extends AbstractController
         $form = $this->createForm(PanierType::class, $panier, [
             'nom_produit' => $nomProduit,
             'prix_produit' => $prixProduit*$quantity,
-            'quantity' => $quantity
+            'quantity' => $quantity,
+
         ]);
 
         // Gérer la soumission du formulaire
