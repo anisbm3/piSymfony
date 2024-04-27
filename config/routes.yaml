@@ -11,16 +11,6 @@ app_utilisateurs_display:
   controller: 'App\Controller\UtilisateursController::display'
   methods: ['GET']
 
-app_front:
-  path: '/'
-  controller: 'App\Controller\UtilisateursController::index'
-  methods: ['GET']
-  
-app_back:
-  path: '/back'
-  controller: 'App\Controller\UtilisateursController::index1'
-  methods: ['GET']
 
-app_login:
-  path: '/login'
-  controller: 'App\Controller\SecurityController::login'
+
+

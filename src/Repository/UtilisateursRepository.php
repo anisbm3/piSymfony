@@ -53,6 +53,17 @@ class UtilisateursRepository extends ServiceEntityRepository implements Password
         return $queryBuilder->getQuery()->getResult();
     }
 
+    public function findOneByEmail($search)
+    {
+        $queryBuilder = $this->createQueryBuilder('u');
+
+        if ($search) {
+            $queryBuilder->andWhere('u.email LIKE :search')
+                ->setParameter('search', '%'.$search.'%');
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 
 
     public function countUsersByRole(): array
@@ -62,13 +73,14 @@ class UtilisateursRepository extends ServiceEntityRepository implements Password
         $rsm->addScalarResult('count', 'count');
 
         $query = $this->getEntityManager()->createNativeQuery('
-            SELECT roles, COUNT(*) as count
-            FROM utilisateurs
-            GROUP BY roles
-        ', $rsm);
+        SELECT roles, COUNT(*) as count
+        FROM utilisateurs
+        GROUP BY roles
+    ', $rsm);
 
         return $query->getResult();
     }
+
 
 //    /**
 //     * @return Utilisateurs[] Returns an array of Utilisateurs objects

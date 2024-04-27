@@ -1,8 +1,9 @@
-{% extends 'Front.html.twig' %}
+{% extends 'home/front.html.twig' %}
 
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-HG2RsFiRV2m75KMSwKcDWtVygqG7aWz+lDVK+1p8thZIiKd4HHfFyV5qD2BeNmn51MHVtkQSR29gUV1xtOIs7Q==" crossorigin="anonymous" />
     <br><br><br><br><br><br><br><br><br><br><br>
     <div class="container">
         <div class="row justify-content-center align-items-center">
@@ -14,7 +15,7 @@
 
                     {% if app.user %}
                         <div class="mb-3">
-                            You are logged in as {{ app.user.userIdentifier }}, <a href="">Logout</a>
+                            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
                         </div>
                     {% endif %}
 
@@ -32,15 +33,44 @@
                     <br>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    <br>
+                    <style>
+                        .custom-div {
+                            margin-left: 170px;
+                            margin-right: 170px;
+                            border: 1.5px solid #000000;
+                            border-radius: 40px;
+                            background-color: #6e6ee1;
+                        }
+                        a{
+                            color: #FFFFFF;
+                        }
+                    </style>
+
+                    <div class="custom-div">
+                        <a href="{{ path('fcb_login') }}" style="display: flex;">
+                            <i class="fa fa-facebook" style="margin-left: 35px; margin-top: 16px"></i>
+                            <p style="margin-left: 10px; margin-top: 9px">Sign in with Facebook</p>
+                        </a>
+                    </div>
+                    <div class="row justify-content-center mt-3">
+                        <div class="col-md-6 text-center">
+                            <h3 class="mb-0">Don't have an account?</h3>
+                            <a href="{{ path('app_register') }}" class="btn btn-link">SIGN UP</a>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <h3 class="mb-0">Forget your password?</h3>
+                            <a href="{{ path('app_forgot_password_request') }}" class="btn btn-link">Reset Password</a>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-6 text-center">
-                <h3 class="mb-0">Don't have an account?</h3>
-                <a href="{{ path('app_register') }}" class="btn btn-link">SIGN UP</a>
-            </div>
-        </div>
+
+
+
+
+
     </div>
     <br><br><br><br><br><br><br><br><br><br><br>
 {% endblock %}

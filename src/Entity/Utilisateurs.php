@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateursRepository::class)]
 #[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,6 +20,9 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     private ?string $pseudo = null;
+
+    #[ORM\Column(length: 255, unique: true)] // Ajout de la contrainte unique
+    private ?string $email = null;
 
     #[ORM\Column]
     private array $roles = [];
@@ -44,11 +48,14 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $numTel = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $email = null;
-
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $banned = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pictureUrl = null;
 
     public function getId(): ?int
     {
@@ -92,7 +99,7 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'laugh-tale_User';
+        $roles[] = 'LaughTale_User';
 
         return array_unique($roles);
     }
@@ -226,6 +233,30 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return $this->nom;
+    }
+
+    public function isBanned(): ?bool
+    {
+        return $this->banned;
+    }
+
+    public function setBanned(?bool $banned): static
+    {
+        $this->banned = $banned;
+
+        return $this;
+    }
+
+    public function getPictureUrl(): ?string
+    {
+        return $this->pictureUrl;
+    }
+
+    public function setPictureUrl(?string $pictureUrl): static
+    {
+        $this->pictureUrl = $pictureUrl;
+
+        return $this;
     }
 
 

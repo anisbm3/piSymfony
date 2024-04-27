@@ -1,4 +1,4 @@
-{% extends 'Front.html.twig' %}
+{% extends 'home/back.html.twig' %}
 
 {% block title %}Utilisateurs{% endblock %}
 
@@ -54,7 +54,6 @@
 
     <a href="{{ path('app_utilisateurs_index') }}">Back to list</a>
 
-    <a href="{{ path('app_utilisateurs_edit', {'id': utilisateur.id}) }}">edit</a>
 
     {{ include('utilisateurs/_delete_form.html.twig') }}
 {% endblock %}

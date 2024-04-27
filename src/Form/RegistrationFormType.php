@@ -3,10 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Utilisateurs;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -114,12 +118,44 @@ class RegistrationFormType extends AbstractType
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                 ],
             ])
-        ;
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'mapped' => false,
+                'invalid_message' => 'The password fields must match.',
+                'first_options'  => ['label' => 'Password'],
+                'second_options' => ['label' => 'Confirm Password'],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'max' => 4096,
+                    ]),
+                ],
+            ])
+            ->add('captcha', Recaptcha3Type::class, [
+                'constraints' => new Recaptcha3(),
+                'action_name' => 'user',
+            ])
+            ->add('picture_url', FileType::class, [
+                'mapped' => false,
+                'required' => false, // Profile picture is not mandatory
+                'label' => 'Profile Picture',
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\Image([
+                        'maxSize' => '5M',
+                        'maxSizeMessage' => 'The maximum allowed file size is 5MB.',
+                        'mimeTypes' => ['image/*'],
+                        'mimeTypesMessage' => 'Please upload a valid image file.',
+                    ]),
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
