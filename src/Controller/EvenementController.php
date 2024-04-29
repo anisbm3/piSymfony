@@ -118,10 +118,13 @@ class EvenementController extends AbstractController
 public function indexFront(EntityManagerInterface $entityManager,Request $request,PaginatorInterface $paginator): Response
 {
 
-    $evenements = $entityManager
+   /* $evenements = $entityManager
     ->getRepository(Evenement::class)
-    ->findAll();
+    ->findAll();*/
 
+    $evenements = $entityManager->getRepository(Evenement::class)->createQueryBuilder('e')
+                           ->orderBy('e.DateEvent', 'DESC')
+                           ->getQuery();
         $evenements = $paginator->paginate(
         $evenements, /* query NOT result */
        $request->query->getInt('page', 1),3
