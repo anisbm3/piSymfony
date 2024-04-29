@@ -9,7 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Notifier\Recipient\AdminRecipient;
+use Symfony\Component\Notifier\Recipient\Recipient;
 class LivraisonController extends AbstractController
 {
     #[Route('/livraison', name: 'app_livraison')]
@@ -19,26 +22,40 @@ class LivraisonController extends AbstractController
     }
 
     #[Route('/new', name: 'new_livraison')]
-    public function addLivraison(Request $request): Response
+   public function addLivraison(Request $request, NotifierInterface $notifier): Response
     {
         $livraison = new Livraison();
         $form = $this->createForm(LivraisonFormType::class, $livraison);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($livraison);
             $entityManager->flush();
-
+    
+            // Vérifier si le prix de la livraison est supérieur à 100
+            if ($livraison->getPrix() > 100) {
+                // Créer une notification
+                $notification = new Notification('Félicitations, vous avez une remise !');
+                // Envoyer la notification
+                $notifier->send($notification);
+            }
+    
+            // Ajouter un message flash pour la notification
+            $this->addFlash('success', 'Livraison ajoutée avec succès !');
+    
+            // Rediriger vers la page de visualisation des livraisons
             return $this->redirectToRoute('all_livraison');
         }
-
+    
         return $this->render('livraison/livraison.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+    
+    
 
-    #[Route('/livraison/affiche', name: 'all_livraison')]
+      #[Route('/livraison/affiche', name: 'all_livraison')]
     public function alllivraison(Request $request, PaginatorInterface $paginator): Response
     {
         $entityManager = $this->getDoctrine()->getRepository(Livraison::class);
@@ -47,6 +64,7 @@ class LivraisonController extends AbstractController
             $livraisons, // Requête contenant les données à paginer
             $request->query->getInt('page', 1), // Numéro de page actuel, 1 par défaut
             5 // Nombre d'éléments par page
+            
         );
 
         return $this->render('livraison/Affiche.html.twig', [

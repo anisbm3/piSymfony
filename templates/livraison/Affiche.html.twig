@@ -89,6 +89,23 @@
             }
         });
     }
+    <!-- Notification script -->
+
+    function showNotification(message) {
+        if (Notification.permission === "granted") {
+            new Notification('Félicitations, vous avez une remise !', { body: message });
+        } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+                    new Notification('Félicitations, vous avez une remise !*', { body: message });
+                }
+            });
+        }
+    }
+
+    // Call this function when the livraison is successfully added
+    showNotification('Félicitations, vous avez une remise !');
+
 </script>
 
 <button onclick="trierLivraisons('date')">Trier par date</button>
