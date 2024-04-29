@@ -4,10 +4,14 @@ framework:
 
         # Enables validator auto-mapping support.
         # For instance, basic validation constraints will be inferred from Doctrine's metadata.
-        #auto_mapping:
+        # auto_mapping:
         #    App\Entity\: []
 
-when@test:
-    framework:
-        validation:
-            not_compromised_password: false
+        # You can define validation groups to be applied to your entities.
+        # More information: https://symfony.com/doc/current/validation/groups.html
+        # Example:
+        # App\Entity\YourEntity:
+        #     group_sequence: [Default, YourCustomGroup]
+
+        # Define your validation constraints here
+        not_compromised_password: false

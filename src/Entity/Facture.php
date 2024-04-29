@@ -14,7 +14,6 @@ class Facture
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
     #[ORM\Column]
     #[Assert\NotBlank(message: "La remise ne peut pas être vide.")]
     #[Assert\Range(
@@ -29,8 +28,6 @@ class Facture
     private ?float $MontantAvecRemise = null;
 
     #[ORM\Column(type: 'date')]
-    #[Assert\NotBlank(message: "La date de facture ne peut pas être vide.")]
-    #[Assert\Date(message: "La date de facture doit être une date valide.")]
     #[Assert\GreaterThan(
         'today',
         message: "La date de facture doit être ultérieure à aujourd'hui."

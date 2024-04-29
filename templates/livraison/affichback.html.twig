@@ -1,5 +1,6 @@
 {% extends 'back.html.twig' %}
-  {% block livraison %}
+
+{% block livraison %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <div class="container">
@@ -17,30 +18,22 @@
                 <th>Quantité</th>
                 <th>Date_Livraison</th>
                 <th>DELETE</th>
-                <th>EDIT</th>
+              
             </tr>
             </thead>
             <tbody>
-            {% for a in livraisons %}
+            {% for livraison in livraisons %}
     <tr>
-        <td>{{ a.nomprenomclient }}</td>
-        <td>{{ a.adresse }}</td>
-        <td>{% if a.panier is not null %}{{ a.panier.price }}{% endif %}</td>
-         <td>{{ a.quantity }}</td> <!-- Vérifie si panier n'est pas nul avant d'accéder au prix -->
-        <td>{{ a.date|date('d/m/Y') }}</td>
-        <td><a href="{{ path('deleteLivraison',{'id':a.id}) }} ">
-                 <i class="fa fa-trash text-danger"></i></a>
-
-        </td>                  
-        <td>
-            <a href="{{ path('updateLivraison',{'id':a.id}) }}">
-            <i class="fa fa-pencil-alt text-success"></i></a>
-        </td>
-
+        <td>{{ livraison.nomprenomclient }}</td>
+        <td>{{ livraison.adresse }}</td>
+        <td>{% if livraison.panier is not null %}{{ livraison.panier.price }}{% endif %}</td>
+        <td>{{ livraison.quantity }}</td>
+        <td>{{ livraison.date|date('d/m/Y') }}</td> {# Formater la date ici #}
+        <td><a href="{{ path('deleteLivraison', {'id': livraison.id}) }}"><i class="fa fa-trash text-danger"></i></a></td>
+    
     </tr>
 {% endfor %}
-
-            <script>
+<script>
                 $(document).ready(function(){
                     $('#search2').keyup(function(){
                         search_table($(this).val());
@@ -73,5 +66,10 @@
         <Br>
         <Br>
     </div>
+</div>
+
+{# Afficher les liens de pagination #}
+<div class="pagination">
+    {{ knp_pagination_render(livraisons) }}
 </div>
 {% endblock %}

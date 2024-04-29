@@ -8,8 +8,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request; // Ajout de l'import pour Request
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
+use Dompdf\Dompdf;
+
+
 
 class FactureController extends AbstractController
+
 {
     #[Route('/facture', name: 'app_facture')]
     public function index(): Response
@@ -47,14 +52,25 @@ class FactureController extends AbstractController
         ]);
     }
     #[Route('/facture/affiche', name: 'all_facture')]
-    public function allfacture() : Response
-    {
-        $entityManager = $this->getDoctrine()->getRepository(Facture::class);
-        $factures = $entityManager->findAll();
-        return $this->render('facture/Afficher.html.twig', [
-            'factures' => $factures,
-        ]);
-    }
+public function allfacture(Request $request, PaginatorInterface $paginator): Response
+{
+    $entityManager = $this->getDoctrine()->getManager();
+    $query = $entityManager->getRepository(Facture::class)->createQueryBuilder('f')
+    
+        ->getQuery();
+
+    $factures = $paginator->paginate(
+        $query, // Requête à paginer
+        $request->query->getInt('page', 1), // Numéro de page par défaut
+        5 // Nombre d'éléments par page
+    );
+
+    return $this->render('facture/Afficher.html.twig', [
+        'factures' => $factures,
+    ]);
+}
+
+
     #[Route('/delete/{id}', name: 'deleteFacture')]
     public function supprimerFacture($id): Response
     {
@@ -93,6 +109,33 @@ public function editFacture(Request $request, $id): Response
         'facture' => $facture, // Passer la variable facture au template
     ]);
 }
+#[Route('/facture/{id}/pdf', name: 'generate_facture_pdf')]
+public function generateFacturePdf($id): Response
+{
+    $entityManager = $this->getDoctrine()->getManager();
+    $facture = $entityManager->getRepository(Facture::class)->find($id);
 
+    if (!$facture) {
+        throw $this->createNotFoundException('Facture non trouvée');
+    }
+
+    $dompdf = new Dompdf();
+    $html = $this->renderView('facture/pdf.html.twig', [
+        'facture' => $facture,
+    ]);
+
+    $dompdf->loadHtml($html);
+
+    // (Optional) Setup the paper size and orientation
+    $dompdf->setPaper('A4', 'portrait');
+
+    // Render the HTML as PDF
+    $dompdf->render();
+
+    // Output the generated PDF to Browser
+    return new Response($dompdf->output(), 200, [
+        'Content-Type' => 'application/pdf',
+    ]);
+}
 
 }

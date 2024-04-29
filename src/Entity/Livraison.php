@@ -23,6 +23,7 @@ class Livraison
         minMessage: "Le nom et prénom du client doit contenir au moins {{ limit }} caractères.",
         maxMessage: "Le nom et prénom du client ne peut pas dépasser {{ limit }} caractères."
     )]
+    
     private ?string $NomPrenomClient = null;
 
     #[ORM\Column(length: 255)]
