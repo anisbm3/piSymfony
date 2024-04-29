@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
 class Evenement
@@ -17,26 +18,51 @@ class Evenement
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:5)]
+    #[Assert\Length(max:20)]
+    #[Assert\NotBlank (message:"veuillez saisir le nom de l'evenement")]
     private ?string $NomEvent = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:5)]
+    #[Assert\Length(max:20)]
+    #[Assert\NotBlank (message:"veuillez saisir la description de l'evenement ")]
     private ?string $DescriptionEvent = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:5)]
+    #[Assert\Length(max:20)]
+    #[Assert\NotBlank (message:"veuillez saisir le lieu de l'evenement ")]
     private ?string $LieuEvent = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $DateEvent = null;
-
     #[ORM\Column(length: 255)]
-    private ?string $Image = null;
+    #[Assert\NotBlank (message:"veuillez saisir l'image de l'evenement ")]
+    private $Image = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank (message:"veuillez saisir le nombre de place de l'evenement ")]
+    private ?int $NbPlace = null;
 
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'Evenement')]
     private Collection $Reservation;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank(message: "Veuillez saisir la date de l'événement.")]
+    #[Assert\GreaterThanOrEqual("now", message: "La date de l'événement doit être après la date actuelle.")]
+    private ?\DateTimeInterface $DateEvent = null;
+
+
+
+    public function __toString()
+    {
+        return $this->NomEvent;
+    }
+
     public function __construct()
     {
         $this->Reservation = new ArrayCollection();
+        $this->DateEvent = new \DateTime('now');
+
     }
 
     public function getId(): ?int
@@ -80,26 +106,26 @@ class Evenement
         return $this;
     }
 
-    public function getDateEvent(): ?\DateTimeInterface
-    {
-        return $this->DateEvent;
-    }
-
-    public function setDateEvent(\DateTimeInterface $DateEvent): static
-    {
-        $this->DateEvent = $DateEvent;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
+    public function getImage()
     {
         return $this->Image;
     }
 
-    public function setImage(string $Image): static
+    public function setImage( $Image)
     {
         $this->Image = $Image;
+
+        return $this;
+    }
+
+    public function getNbPlace(): ?int
+    {
+        return $this->NbPlace;
+    }
+
+    public function setNbPlace(int $NbPlace): static
+    {
+        $this->NbPlace = $NbPlace;
 
         return $this;
     }
@@ -133,4 +159,17 @@ class Evenement
 
         return $this;
     }
+
+    public function getDateEvent(): ?\DateTimeInterface
+    {
+        return $this->DateEvent;
+    }
+
+    public function setDateEvent(\DateTimeInterface $DateEvent): static
+    {
+        $this->DateEvent = $DateEvent;
+
+        return $this;
+    }
+
 }

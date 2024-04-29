@@ -1,0 +1,12 @@
+{% extends 'Front.html.twig' %}
+
+{% block title %}Edit Reservation{% endblock %}
+
+{% block body %}
+    <h1>Edit Reservation</h1>
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+    {{ include('reservation/_form.html.twig', {'button_label': 'Update'}) }}
+
+  
+    {{ include('reservation/_delete_form.html.twig') }}
+{% endblock %}

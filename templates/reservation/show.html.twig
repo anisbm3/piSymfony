@@ -1,0 +1,38 @@
+{% extends 'Front.html.twig' %}
+
+{% block title %}Reservation{% endblock %}
+
+{% block body %}
+    <h1>Reservation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reservation.id }}</td>
+            </tr>
+            <tr>
+                <th>NomReservation</th>
+                <td>{{ reservation.NomReservation }}</td>
+            </tr>
+            <tr>
+                <th>NbPlace</th>
+                <td>{{ reservation.NbPlace }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ reservation.Etat }}</td>
+            </tr>
+            <tr>
+                <th>Resdate</th>
+                <td>{{ reservation.resdate ? reservation.resdate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reservation_indexFront') }}">back to list</a>
+
+    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
+
+    {{ include('reservation/_delete_form.html.twig') }}
+{% endblock %}

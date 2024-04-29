@@ -23,15 +23,19 @@ class Reservation
     #[ORM\Column(length: 255)]
     private ?string $Etat = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Reservation')]
+    private ?Evenement $Evenement = null;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $resdate = null;
 
     #[ORM\ManyToOne(inversedBy: 'Reservation')]
     private ?User $User = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Reservation')]
-    private ?Evenement $Evenement = null;
-
+    public function __construct()
+    {
+        $this->resdate = new \DateTime('now');
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -73,6 +77,18 @@ class Reservation
         return $this;
     }
 
+    public function getEvenement(): ?Evenement
+    {
+        return $this->Evenement;
+    }
+
+    public function setEvenement(?Evenement $Evenement): static
+    {
+        $this->Evenement = $Evenement;
+
+        return $this;
+    }
+
     public function getResdate(): ?\DateTimeInterface
     {
         return $this->resdate;
@@ -93,18 +109,6 @@ class Reservation
     public function setUser(?User $User): static
     {
         $this->User = $User;
-
-        return $this;
-    }
-
-    public function getEvenement(): ?Evenement
-    {
-        return $this->Evenement;
-    }
-
-    public function setEvenement(?Evenement $Evenement): static
-    {
-        $this->Evenement = $Evenement;
 
         return $this;
     }

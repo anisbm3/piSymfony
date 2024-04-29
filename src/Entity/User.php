@@ -64,6 +64,7 @@ class User
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'User')]
     private Collection $Reservation;
 
+
     public function __construct()
     {
         $this->prod_name = new ArrayCollection();
@@ -345,7 +346,6 @@ class User
                 $debat->setUserId(null);
             }
         }
-
         return $this;
     }
 
