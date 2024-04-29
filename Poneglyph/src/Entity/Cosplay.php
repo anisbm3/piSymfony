@@ -47,8 +47,9 @@ class Cosplay
 
     private ?string $imagecp= null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-   
+    #[ORM\Column(type: Types::DATETIME_MUTABLE , nullable:true)]
+    #[Assert\DateTime(message:"La date de création doit être au format datetime.")]
+    
     private ?\DateTimeInterface $datecreation = null;
 
     #[ORM\Column(length: 255,nullable: true)]
@@ -61,10 +62,20 @@ class Cosplay
 
     #[ORM\ManyToOne(inversedBy: 'cosplay')]
     private ?User $userid = null;
-
+    #[ORM\Column]
+    private  ?int $likeCount = null;
     public function getId(): ?int
     {
         return $this->id;
+    }
+    public function getLikeCount(): int
+    {
+        return $this->likeCount;
+    }
+    public function setLikeCount(int $likeCount): static
+    {
+        $this->likeCount = $likeCount;
+        return $this;
     }
 
     public function getNomcp(): ?string

@@ -7,7 +7,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints as Assert;
 class CosplayType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -24,12 +26,21 @@ class CosplayType extends AbstractType
         ])
         ->add('imagecp', FileType::class, [
             'label' => 'Image du Cosplay',
-            'required' => true, 
-            'mapped' => false,])
-        ->add('datecreation', DateType::class, [
+            'required' => false, 
+            'mapped' => false,
+            'constraints' => [
+                new Assert\DateTime([
+                    'message' => 'La date de création doit être au format datetime.'
+                ]),
+                new Assert\LessThanOrEqual([
+                    'value' => 'today',
+                    'message' => "La date de création ne peut pas être postérieure à aujourd'hui."
+                ]),],
+                ])
+        ->add('datecreation', DateTimeType::class, [
             'label' => 'Date de création',
-            'widget' => 'single_text',
-            'format' => 'yyyy-MM-dd', 
+            
+                
         ])
            // ->add('nomma')
            ->add('idmateriaux', null, [

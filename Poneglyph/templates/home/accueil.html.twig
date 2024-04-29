@@ -4,23 +4,325 @@
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-<nav>
-    <ul>
-        <li><a href="{{ path('app_home') }}">Accueil</a></li>
-        <li><a href="{{ path('app_cosplay_index') }}">Cosplays</a></li>
-       
-    </ul>
-</nav>
-<div class="example-wrapper">
-    <h1>Hello ✅</h1>
+   
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/sabri/OneDrive/Bureau/piSymfony/Poneglyph/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/sabri/OneDrive/Bureau/piSymfony/Poneglyph/templates/home/accueil.html.twig'|file_link(0) }}">templates/home/accueil.html.twig</a></code></li>
-    </ul>
-</div>
+ #ts-service-area {
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+ }
+
+ #ts-service-area.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+ }
+ #news {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+#news.fade-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>
+<script>
+ document.addEventListener("scroll", function() {
+  var scrollPosition = window.scrollY;
+  var serviceAreaSection = document.getElementById("ts-service-area");
+  var serviceAreaSectionPosition = serviceAreaSection.getBoundingClientRect().top + window.scrollY;
+  var windowHeight = window.innerHeight;
+
+  if (scrollPosition + windowHeight > serviceAreaSectionPosition) {
+    serviceAreaSection.classList.add("fade-in");
+  } else {
+    serviceAreaSection.classList.remove("fade-in");
+  }
+  });
+  
+/* posts----*/
+const handleScroll = () => {
+  const newsSection = document.getElementById('news');
+  const scrollPosition = window.scrollY;
+  const newsSectionPosition = newsSection.getBoundingClientRect().top + window.scrollY;
+  const windowHeight = window.innerHeight;
+
+  // Adjust this value based on how far from the top of the viewport you want the animation to trigger
+  const triggerOffset = 200;
+
+  if (scrollPosition + windowHeight > newsSectionPosition + triggerOffset) {
+    newsSection.classList.add('fade-in');
+    // Remove the event listener to prevent multiple animations
+    window.removeEventListener('scroll', handleScroll);
+  }
+};
+
+// Add scroll event listener
+window.addEventListener('scroll', handleScroll);
+
+</script>
+<section id="ts-features" class="ts-features">
+  <div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+          
+          <div class="gap-20"></div>
+
+          <div class="row">
+              <div class="col-md-6">
+                <div class="ts-service-box">
+                    <span class="ts-service-icon">
+                      <i class="fas fa-trophy"></i>
+                    </span>
+                    <div class="ts-service-box-content">
+                      <h3 class="service-box-title">Excellente Reputation</h3>
+                    </div>
+                </div><!-- Service 1 end -->
+              </div><!-- col end -->
+
+              <div class="col-md-6">
+                <div class="ts-service-box">
+                    <span class="ts-service-icon">
+                      <i class="fas fa-sliders-h"></i>
+                    </span>
+                    <div class="ts-service-box-content">
+                      <h3 class="service-box-title">Partenariats </h3>
+                    </div>
+                </div><!-- Service 2 end -->
+              </div><!-- col end -->
+          </div><!-- Content row 1 end -->
+
+          <div class="row">
+              <div class="col-md-6">
+                <div class="ts-service-box">
+                    <span class="ts-service-icon">
+                      <i class="fas fa-thumbs-up"></i>
+                    </span>
+                    <div class="ts-service-box-content">
+                      <h3 class="service-box-title">Discipline</h3>
+                    </div>
+                </div><!-- Service 1 end -->
+              </div><!-- col end -->
+
+              <div class="col-md-6">
+                <div class="ts-service-box">
+                    <span class="ts-service-icon">
+                      <i class="fas fa-users"></i>
+                    </span>
+                    <div class="ts-service-box-content">
+                      <h3 class="service-box-title">Equipe de professionnels</h3>
+                    </div>
+                </div><!-- Service 2 end -->
+              </div><!-- col end -->
+          </div><!-- Content row 1 end -->
+        </div><!-- Col end -->
+
+        <div class="col-lg-6 mt-4 mt-lg-0">
+          <h3 class="into-sub-title">Nos valeurs</h3>
+          <p>Bienvenue sur Laugh_Tale ! Nous sommes une plateforme dédiée à l'anime, où la communauté anime se réunit pour partager sa passion. Notre engagement envers la qualité, la diversité et l'intégrité se reflète dans tout ce que nous offrons. Rejoignez-nous pour découvrir de nouvelles séries, échanger des idées et célébrer l'anime ensemble !</p>
+
+          <div class="accordion accordion-group" id="our-values-accordion">
+              <div class="card">
+                <div class="card-header p-0 bg-transparent" id="headingOne">
+                    <h2 class="mb-0">
+                      <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                          Sécurité
+                      </button>
+                    </h2>
+                </div>
+              
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#our-values-accordion">
+                    <div class="card-body">
+                     Notre site est en un haut niveau de sécurité qui protège l'utilisateur et ses données de toutes types d'espionnage ou depassement de limites
+                    </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header p-0 bg-transparent" id="headingTwo">
+                    <h2 class="mb-0">
+                      <button class="btn btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                         Service
+                      </button>
+                    </h2>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#our-values-accordion">
+                    <div class="card-body">
+                      Notre departement de ventes accepte tous formes de reclamation et écoute tous les feedbacks attentivements avec des livraisons qui ne dépassent pas 2 jours
+                    </div>
+                </div>
+              </div>
+            
+          <!--/ Accordion end -->
+
+        </div><!-- Col end -->
+    </div><!-- Row end -->
+  </div><!-- Container end -->
+</section><!-- Feature are end -->
+<section id="ts-service-area" class="ts-service-area pb-0">
+  <div class="container">
+    <div class="row text-center">
+        <div class="col-12">
+          <h2 class="section-title">Nous sommes spécialistes en</h2>
+          <h3 class="section-sub-title">Anime</h3>
+        </div>
+    </div>
+    <!--/ Title row end -->
+
+    <div class="row">
+        <div class="col-lg-4">
+          <div class="ts-service-box d-flex">
+              <div class="ts-service-box-img">
+                <img loading="lazy" src="images/icon-image/service-icon1.png" alt="service-icon">
+              </div>
+              <div class="ts-service-box-info">
+                <h3 class="service-box-title"><a href="#">Organisation de conventions</a></h3>
+                <p>Création et gestion d'événements pour rassembler les fans d'anime.</p>
+              </div>
+          </div><!-- Service 1 end -->
+
+          <div class="ts-service-box d-flex">
+              <div class="ts-service-box-img">
+                <img loading="lazy" src="images/icon-image/service-icon2.png" alt="service-icon">
+              </div>
+              <div class="ts-service-box-info">
+                <h3 class="service-box-title"><a href="#">Création de clubs d'anime</a></h3>
+                <p>Mise en place de communautés pour les passionnés d'anime.</p>
+              </div>
+          </div><!-- Service 2 end -->
+
+          <div class="ts-service-box d-flex">
+              <div class="ts-service-box-img">
+                <img loading="lazy" src="images/icon-image/service-icon3.png"  alt="service-icon">
+              </div>
+              <div class="ts-service-box-info">
+                <h3 class="service-box-title"><a href="#">Projection de films et séries</a></h3>
+                <p>Organisation de soirées de visionnage pour les amateurs d'anime.</p>
+              </div>
+          </div><!-- Service 3 end -->
+
+        </div><!-- Col end -->
+
+        <div class="col-lg-4 text-center">
+          <img loading="lazy" class="img-fluid" src="images/services/service-center.jpg" alt="service-avater-image">
+        </div><!-- Col end -->
+
+        <div class="col-lg-4 mt-5 mt-lg-0 mb-4 mb-lg-0">
+          <div class="ts-service-box d-flex">
+              <div class="ts-service-box-img">
+                <img loading="lazy" src="images/icon-image/service-icon4.png" alt="service-icon">
+              </div>
+              <div class="ts-service-box-info">
+                <h3 class="service-box-title"><a href="#">Concours de cosplay</a></h3>
+                <p>Organisation de compétitions pour les fans qui veulent montrer leurs costumes.</p>
+              </div>
+          </div><!-- Service 4 end -->
+
+          <div class="ts-service-box d-flex">
+              <div class="ts-service-box-img">
+                <img loading="lazy" src="images/icon-image/service-icon5.png" alt="service-icon">
+              </div>
+              <div class="ts-service-box-info">
+                <h3 class="service-box-title"><a href="#">Vente de produits dérivés</a></h3>
+                <p>Proposition de produits inspirés des séries et films d'anime.</p>
+              </div>
+          </div><!-- Service 5 end -->
+
+          <div class="ts-service-box d-flex">
+              <div class="ts-service-box-img">
+                <img loading="lazy" src="images/icon-image/service-icon6.png" alt="service-icon">
+              </div>
+              <div class="ts-service-box-info">
+                <h3 class="service-box-title"><a href="#">Débats sur les tendances</a></h3>
+                <p>Organisation de discussions sur les dernières tendances et théories dans le monde de l'anime.</p>
+              </div>
+          </div><!-- Service 6 end -->
+        </div><!-- Col end -->
+    </div><!-- Content row end -->
+
+  </div>
+  <!--/ Container end -->
+</section><!-- Service end -->
+<section id="news" class="news">
+  <div class="container">
+    <div class="row text-center">
+        <div class="col-12">
+          <h2 class="section-title">Work of Excellence</h2>
+          <h3 class="section-sub-title">Recent Projects</h3>
+        </div>
+    </div>
+    <!--/ Title row end -->
+
+    <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="latest-post">
+              <div class="latest-post-media">
+                <a href="news-single.html" class="latest-post-img">
+                    <img loading="lazy" class="img-fluid" src="images/news/news1.jpg" alt="img">
+                </a>
+              </div>
+              <div class="post-body">
+                <h4 class="post-title">
+                    <a href="news-single.html" class="d-inline-block">La mort du mangaka de Dragon Ball</a>
+                </h4>
+                <div class="latest-post-meta">
+                    <span class="post-item-date">
+                      <i class="fa fa-clock-o"></i> 3 Mars 2024
+                    </span>
+                </div>
+              </div>
+          </div><!-- Latest post end -->
+        </div><!-- 1st post col end -->
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="latest-post">
+              <div class="latest-post-media">
+                <a href="news-single.html" class="latest-post-img">
+                    <img loading="lazy" class="img-fluid" src="images/news/news2.jpg" alt="img">
+                </a>
+              </div>
+              <div class="post-body">
+                <h4 class="post-title">
+                    <a href="news-single.html" class="d-inline-block">Evenement Cosplay</a>
+                </h4>
+                <div class="latest-post-meta">
+                    <span class="post-item-date">
+                      <i class="fa fa-clock-o"></i> Mars 17, 2024
+                    </span>
+                </div>
+              </div>
+          </div><!-- Latest post end -->
+        </div><!-- 2nd post col end -->
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="latest-post">
+              <div class="latest-post-media">
+                <a href="news-single.html" class="latest-post-img">
+                    <img loading="lazy" class="img-fluid" src="images/news/news3.jpg" alt="img">
+                </a>
+              </div>
+              <div class="post-body">
+                <h4 class="post-title">
+                    <a href="news-single.html" class="d-inline-block">Revelation de la date du film De Demon Slayer</a>
+                </h4>
+                <div class="latest-post-meta">
+                    <span class="post-item-date">
+                      <i class="fa fa-clock-o"></i> Mars 13, 2024
+                    </span>
+                </div>
+              </div>
+          </div><!-- Latest post end -->
+        </div><!-- 3rd post col end -->
+    </div>
+    <!--/ Content row end -->
+
+    <div class="general-btn text-center mt-4">
+        <a class="btn btn-primary" href="news-left-sidebar.html">Voir les Postes</a>
+    </div>
+
+  </div>
+  <!--/ Container end -->
+</section>
+<!--/ News end -->
+
 {% endblock %}

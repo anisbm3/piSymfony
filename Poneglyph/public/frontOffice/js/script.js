@@ -267,6 +267,7 @@ jQuery(function ($) {
 		mediaPopup();
 
 	});
+	
 
 
 });

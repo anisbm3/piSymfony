@@ -10,7 +10,7 @@
                     <div class="col-md-8 offset-md-2 center-content">
                         <h1>Ajouter Post Cosplay</h1>
                       
-                        {{ form_start(form, {'attr': {'class': 'supplement-form', 'name': 'supplementForm', 'enctype': 'multipart/form-data'}}) }}
+                        {{ form_start(form, {'attr': {'class': 'supplement-form', 'name': 'supplementForm', 'enctype': 'multipart/form-data', 'novalidate' :'novalidate'}}) }}
                         <div class="form-group">
                             <label for="nomcp" class="supplement-label">Nom du Cosplay</label>
                             {{ form_widget(form.nomcp, {'attr': {'class': 'form-control supplement-nom', 'placeholder' : 'Nom du Cosplay' }}) }}

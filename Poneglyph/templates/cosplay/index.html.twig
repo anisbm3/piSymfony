@@ -4,6 +4,7 @@
 
 
 {% block body %}
+
 <style>
 .add-post-link {
     font-family: Arial, sans-serif;
@@ -108,7 +109,7 @@
                   <i class="far fa-user"></i><a href="#"> Admin</a>
                 </span>
                 <span class="post-cat">
-                 <i class="far fa-heart"></i> Fabriqué avec <td>{{ cosplay.idmateriaux }}</td>
+                 <i class="fas fa-leaf"></i> Fabriqué avec <td>{{ cosplay.idmateriaux }}</td>
                 </span>
                 
                <span class="post-meta-date">
@@ -118,8 +119,11 @@
                </span>
               
 
-                <span class="post-comment"><i class="far fa-heart"></i> 03
-                <a href="#" class="comments-link">Likes</a></span>
+                <span class="post-comment" data-cosplay-id="{{ cosplay.id }}">
+    <a href="#" class="comments-link" id="like-button"><i class="far fa-heart"></i>Like ({{ cosplay.likeCount }})</a>
+</span>
+
+
                </div>
               <h2 class="entry-title">
                 <td>{{ cosplay.nomcp }}</td>
@@ -142,12 +146,14 @@
 
           </div><!-- post-body end -->
         </div><!-- 1st post end -->
+        
  {% else %}
         <tr>
             <td colspan="8">no records found</td>
         </tr>
+       
         {% endfor %}
-        <nav class="paging" aria-label="Page navigation example">
+       <!-- <nav class="paging" aria-label="Page navigation example">
           <ul class="pagination">
             <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li>
             <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -155,8 +161,11 @@
             <li class="page-item"><a class="page-link" href="#">3</a></li>
             <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li>
           </ul>
-        </nav>
-
+        </nav>-->
+              <ul class="pagination">
+             {# Render the pagination control #}
+               {{ knp_pagination_render(cosplays) }}
+             </ul>
       </div><!-- Content Col end -->
 
     </div><!-- Main row end -->
@@ -166,5 +175,30 @@
 
   </div><!-- Container end -->
 </section><!-- Main container end -->
+<script>
+window.addEventListener("DOMContentLoaded", (event) => {
+    const likeButton = document.getElementById('like-button');
+    if (likeButton) {
+        likeButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log(this.closest('.cosplay'));
+            var cosplayId = this.closest('.cosplay').dataset.cosplayId;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/like/' + cosplayId, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var likesCount = document.getElementById('likes-count');
+                    likesCount.textContent = parseInt(likesCount.textContent) + 1;
+                }
+            };
+            xhr.send();
+        });
+    }
+});
+
+
+
+</script>
 
 {% endblock %}

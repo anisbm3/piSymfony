@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Cosplay</h1>
-
+<div class="cosplay-details">
     <table class="table">
         <tbody>
             <tr>
@@ -36,15 +36,18 @@
                 <td>{{ cosplay.nomma }}</td>
             </tr> #}
             <tr>
-                <th>Nom material</th>
+                <th>Nom materiau</th>
                 <td>{{ cosplay.idmateriaux.nomma }}</td>
             </tr>
         </tbody>
     </table>
+    <a href="{{ path('app_cosplay_indexb') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Retour</a>
 
-    <a href="{{ path('app_cosplay_indexb') }}">back to list</a> 
+</div>
+     {{ include('cosplay/_delete_formb.html.twig') }}
+
  {#<button type="button" class="btn btn-danger">
     <a href="{{ path('app_cosplay_edit', {'id': cosplay.id}) }}">edit</a>
  </button>#}
-      {{ include('cosplay/_delete_formb.html.twig') }}
+     
 {% endblock %}

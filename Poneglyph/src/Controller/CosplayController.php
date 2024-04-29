@@ -11,17 +11,28 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Knp\Component\Pager\PaginatorInterface;
 #[Route('/cosplay')]
 class CosplayController extends AbstractController
 {
     #[Route('/', name: 'app_cosplay_index', methods: ['GET'])]
-    public function index(CosplayRepository $cosplayRepository): Response
-    {
+    public function index(CosplayRepository $cosplayRepository, Request $request, PaginatorInterface $paginator): Response
+    { 
+        $cosplays = $cosplayRepository->findAll();
+
+        // Paginate the array directly
+        $cosplays = $paginator->paginate(
+            $cosplays, // Query object or array
+            $request->query->getInt('page', 1), // Current page number
+            2 // Items per page
+        );
+
+        // Render the view with the paginated data
         return $this->render('cosplay/index.html.twig', [
-            'cosplays' => $cosplayRepository->findAll(),
+            'cosplays' =>$cosplays,
         ]);
     }
+
     #[Route('/b', name: 'app_cosplay_indexb', methods: ['GET'])]
     public function indexb(CosplayRepository $cosplayRepository): Response
     {
@@ -51,7 +62,7 @@ class CosplayController extends AbstractController
                 $this->getParameter('images_directory'),
                 $fichier);
              $cosplay->setImagecp($fichier);
-            
+             $cosplay->setLikeCount(0);
             $entityManager->persist($cosplay);
             $entityManager->flush();
 
@@ -154,4 +165,17 @@ class CosplayController extends AbstractController
 
         return $this->redirectToRoute('app_cosplay_index', [], Response::HTTP_SEE_OTHER);
     }
+#[Route('/cosplay/{id}/like', name:"post_like", methods:['POST'])]
+
+ public function like(Request $request,Cosplay $cosplay,EntityManagerInterface $entityManager): Response
+{
+   // Incrémentez le nombre de likes pour le post donné
+   $cosplay->setLikeCount($cosplay->getLikeCount() + 1);
+
+   // Enregistrez les modifications dans la base de données
+   $this->getDoctrine()->getManager()->flush();
+
+   // Retournez une réponse JSON avec le nombre de likes
+   return new JsonResponse(['likeCount' => $cosplay->getLikeCount()]);
+}
 }
