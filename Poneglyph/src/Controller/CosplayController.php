@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use OpenAI;
 
 use App\Entity\Cosplay;
 use App\Form\CosplayType;
@@ -16,8 +17,9 @@ use Knp\Component\Pager\PaginatorInterface;
 class CosplayController extends AbstractController
 {
     #[Route('/', name: 'app_cosplay_index', methods: ['GET'])]
-    public function index(CosplayRepository $cosplayRepository, Request $request, PaginatorInterface $paginator): Response
-    { 
+    public function index(CosplayRepository $cosplayRepository, Request $request, PaginatorInterface $paginator,? string $question, ? string $response): Response
+    {   // Get the question from the request query parameters
+       
         $cosplays = $cosplayRepository->findAll();
 
         // Paginate the array directly
@@ -30,14 +32,18 @@ class CosplayController extends AbstractController
         // Render the view with the paginated data
         return $this->render('cosplay/index.html.twig', [
             'cosplays' =>$cosplays,
+            'question' => $question,
+            'response' => $response,
+           
         ]);
     }
 
     #[Route('/b', name: 'app_cosplay_indexb', methods: ['GET'])]
     public function indexb(CosplayRepository $cosplayRepository): Response
-    {
+    {      
+        $cosplays = $cosplayRepository->findAllOrderedByDate();
         return $this->render('cosplay/indexb.html.twig', [
-            'cosplays' => $cosplayRepository->findAll(),
+            'cosplays' => $cosplays,
         ]);
     }
 
@@ -74,6 +80,36 @@ class CosplayController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/chat', name: 'send_chat', methods:"POST")]
+    public function chat(Request $request): Response
+    {
+        $question=$request->request->get('text');
+
+        //Implémentation du chat gpt
+
+        $myApiKey = $_ENV['OPENAI_KEY'];
+
+
+        $client = OpenAI::client($myApiKey);
+
+        $result = $client->completions()->create([
+            'model' => 'gpt-3.5-turbo-instruct',
+            'prompt' => $question,
+            'max_tokens'=>2048
+        ]);
+
+        $response=$result->choices[0]->text;
+  
+        
+        return $this->forward('App\Controller\CosplayController::index', [
+           
+            'question' => $question,
+            'response' => $response
+        ]);
+    }
+
+
     #[Route('/newb', name: 'app_cosplay_newb', methods: ['GET', 'POST'])]
     public function newb(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -165,10 +201,10 @@ class CosplayController extends AbstractController
 
         return $this->redirectToRoute('app_cosplay_index', [], Response::HTTP_SEE_OTHER);
     }
-#[Route('/cosplay/{id}/like', name:"post_like", methods:['POST'])]
+    #[Route('/cosplay/{id}/like', name:"post_like", methods:['POST'])]
 
- public function like(Request $request,Cosplay $cosplay,EntityManagerInterface $entityManager): Response
-{
+     public function like(Request $request,Cosplay $cosplay,EntityManagerInterface $entityManager): Response
+    {
    // Incrémentez le nombre de likes pour le post donné
    $cosplay->setLikeCount($cosplay->getLikeCount() + 1);
 
@@ -177,5 +213,19 @@ class CosplayController extends AbstractController
 
    // Retournez une réponse JSON avec le nombre de likes
    return new JsonResponse(['likeCount' => $cosplay->getLikeCount()]);
-}
+      }
+   #[Route('/ajax', name: 'recherche', methods:['GET'])]
+    public function searchoffreajax(Request $request, CosplayRepository $cosplayRepository): Response
+   {
+    $cosplayRepository = $this->getDoctrine()->getRepository(Cosplay::class);
+    $requestString = $request->get('searchValue');
+    $cosplays = $cosplayRepository->findBySearchCriteria($requestString);
+
+    return $this->render('cosplay/index.html.twig', [
+        "cosplays" => $cosplays
+    ]);
+    }
+
+    
+
 }

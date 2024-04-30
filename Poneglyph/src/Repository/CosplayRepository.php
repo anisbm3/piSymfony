@@ -21,6 +21,27 @@ class CosplayRepository extends ServiceEntityRepository
         parent::__construct($registry, Cosplay::class);
     }
 
+    public function findBySearchCriteria($nomcp)
+{
+    $queryBuilder = $this->createQueryBuilder('c');
+
+    // Apply nomcp filter if provided
+    if ($nomcp) {
+        $queryBuilder->andWhere('c.nomcp LIKE :nomcp')
+            ->setParameter('nomcp', '%' . $nomcp . '%');
+    }
+
+    return $queryBuilder->getQuery()->getResult();
+}
+public function findAllOrderedByDate()
+{
+    return $this->createQueryBuilder('c')
+        ->orderBy('c.datecreation', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
+      
+
 //    /**
 //     * @return Cosplay[] Returns an array of Cosplay objects
 //     */
