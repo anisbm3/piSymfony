@@ -4,6 +4,7 @@
 
 {% block body %}
     <h1>Create new Debat</h1>
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
 
     {{ include('debat/_form.html.twig') }}
 

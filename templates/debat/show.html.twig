@@ -4,7 +4,37 @@
 
 {% block body %}
     <h1>Debat</h1>
-
+<script>
+    function setRating(rating) {
+        var Debatid = {{ debat.id }};
+        fetch('{{ path('app_debat_update_rating', {'id': debat.id}) }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ rating: rating }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Une erreur est survenue lors de la mise à jour de la note du debat.');
+            }
+            // Mettre à jour l'affichage des étoiles dans le navigateur
+            var stars = document.querySelectorAll('.rating button');
+            for (var i = 0; i < stars.length; i++) {
+                if (i < rating) {
+                    stars[i].classList.remove('btn-outline-secondary');
+                    stars[i].classList.add('btn-warning');
+                } else {
+                    stars[i].classList.add('btn-outline-secondary');
+                    stars[i].classList.remove('btn-warning');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+        });
+    }
+</script>
     <table class="table">
         <tbody>
             <tr>
@@ -27,6 +57,18 @@
                 <th>NoteAnime</th>
                 <td>{{ debat.NoteAnime }}</td>
             </tr>
+
+            <tr>
+                                       <th scope="row">Note du debat</th>
+    <td>
+        <div class="rating">
+            <button onclick="setRating(1)" class="btn btn-sm btn-outline-secondary">&#9733;</button>
+            <button onclick="setRating(2)" class="btn btn-sm btn-outline-secondary">&#9733;</button>
+            <button onclick="setRating(3)" class="btn btn-sm btn-outline-secondary">&#9733;</button>
+            <button onclick="setRating(4)" class="btn btn-sm btn-outline-secondary">&#9733;</button>
+            <button onclick="setRating(5)" class="btn btn-sm btn-outline-secondary">&#9733;</button>
+        </div>
+    </td>
         </tbody>
     </table>
 

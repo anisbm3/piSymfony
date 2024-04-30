@@ -45,4 +45,42 @@ class DebatRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+public function SortByNomAnime()
+{
+    return $this->createQueryBuilder('e')
+        ->orderBy('e.NomAnime','ASC')
+        ->getQuery()
+        ->getResult()
+        ;
+}
+public function SortByNoteAnime(){
+    return $this->createQueryBuilder('e')
+        ->orderBy('e.NoteAnime','ASC')
+        ->getQuery()
+        ->getResult()
+        ;
+}
+
+
+public function findByNomAnime( $NomAnime)
+{
+    return $this-> createQueryBuilder('e')
+        ->andWhere('e.NomAnime LIKE :NomAnime')
+        ->setParameter('NomAnime','%' .$NomAnime. '%')
+        ->getQuery()
+        ->execute();
+}
+
+
+
+public function findByNoteAnime( $NoteAnime)
+{
+    return $this-> createQueryBuilder('e')
+        ->andWhere('e.NoteAnime LIKE :NoteAnime')
+        ->setParameter('NoteAnime','%' .$NoteAnime. '%')
+        ->getQuery()
+        ->execute();
+}
 }

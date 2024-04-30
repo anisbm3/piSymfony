@@ -6,6 +6,7 @@ use App\Repository\DebatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DebatRepository::class)]
 class Debat
@@ -16,19 +17,48 @@ class Debat
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:5)]
+    #[Assert\Length(max:20)]
+    #[Assert\NotBlank (message:"veuillez saisir le sujet debat de debat")]
     private ?string $SujetDebat = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:5)]
+    #[Assert\Length(max:20)]
+    #[Assert\NotBlank (message:"veuillez saisir le description de debat")]
     private ?string $DescriptionDebat = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:5)]
+    #[Assert\Length(max:20)]
+    #[Assert\NotBlank (message:"veuillez saisir le nom anime de debat")]
     private ?string $NomAnime = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:1)]
+    #[Assert\Length(max:5)]
+    #[Assert\NotBlank (message:"veuillez saisir le description de debat")]
     private ?string $NoteAnime = null;
 
+
+    #[ORM\Column(name: "noteanimes", nullable: true)]
+    private ?int $noteanimes= null;
+    
+    public function getNoteanimes(): ?int
+    {
+        return $this->noteanimes;
+    }
+    
+    public function setNoteanimes(?int $noteanimes): self
+    {
+        $this->noteanimes= $noteanimes;
+        return $this;
+    }
+   
     #[ORM\ManyToOne(inversedBy: 'Debat')]
     private ?User $User = null;
+
+    
 
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'Debat')]
     private Collection $Commentaire;

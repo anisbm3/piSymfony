@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CommentaireRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: CommentaireRepository::class)]
 class Commentaire
@@ -14,9 +16,15 @@ class Commentaire
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:5)]
+    #[Assert\Length(max:20)]
+    #[Assert\NotBlank (message:"veuillez saisir le Message de commentaire")]
     private ?string $Message = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:5)]
+    #[Assert\Length(max:20)]
+    #[Assert\NotBlank (message:"veuillez saisir le block du commentaire")]
     private ?string $BLOCK = null;
 
     #[ORM\ManyToOne(inversedBy: 'Commentaire')]
