@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Commentaire;
 
 use App\Entity\Debat;
 use App\Form\DebatType;
 use App\Repository\DebatRepository;
+use App\Repository\CommentaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -140,7 +142,5 @@ class DebatController extends AbstractController
         return new Response('La note du anime a été mise à jour avec succès.', Response::HTTP_OK);
     }
    
-
-
-
+   
 }

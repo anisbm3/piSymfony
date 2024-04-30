@@ -29,6 +29,7 @@ class Commentaire
 
     #[ORM\ManyToOne(inversedBy: 'Commentaire')]
     private ?Debat $Debat = null;
+    
 
     public function getId(): ?int
     {

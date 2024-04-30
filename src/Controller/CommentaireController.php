@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Debat;
 
 use App\Entity\Commentaire;
 use App\Form\CommentaireType;
@@ -19,6 +20,26 @@ class CommentaireController extends AbstractController
     {
         return $this->render('commentaire/index.html.twig', [
             'commentaires' => $commentaireRepository->findAll(),
+        ]);
+    }
+
+   /* #[Route('/{iddebat}/commentaires', name: 'app_commentaires', methods: ['GET'])]
+    public function indexDebatCommentaires(CommentaireRepository $commentaireRepository, Debat $iddebat): Response
+    {
+        $commentaire = $commentaireRepository->findBy(['debats' => $iddebat]);
+
+        return $this->render('commentaire/indexFront.html.twig', [
+            'commentaire' => $commentaire,
+        ]);
+    }*/
+
+    #[Route('/{iddebat}/commentaires', name: 'app_commentaires', methods: ['GET'])]
+    public function indexDebatCommentaires(CommentaireRepository $commentaireRepository, Debat $iddebat): Response
+    {
+        $commentaires = $commentaireRepository->findBy(['Debat' => $iddebat]);
+
+        return $this->render('commentaire/indexFront.html.twig', [
+            'commentaires' => $commentaires,
         ]);
     }
 
@@ -86,4 +107,9 @@ class CommentaireController extends AbstractController
 
         return $this->redirectToRoute('app_commentaire_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+
 }

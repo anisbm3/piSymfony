@@ -1,19 +1,19 @@
 {% extends 'front.html.twig' %}
 
-{% block title %}Debat index{% endblock %}
+{% block title %}Debate index{% endblock %}
 
 {% block body %}
-    <h1>Debat index</h1>
+    <h1>Debate index</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>SujetDebat</th>
-                <th>DescriptionDebat</th>
+                <th>Subject</th>
+                <th>Description</th>
                 <th>NomAnime</th>
                 <th>NoteAnime</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,13 +25,14 @@
                 <td>{{ debat.NomAnime }}</td>
                 <td>{{ debat.NoteAnime }}</td>
                 <td>
-                    <a href="{{ path('app_debat_show', {'id': debat.id}) }}">show</a>
-                    <a href="{{ path('app_debat_edit', {'id': debat.id}) }}">edit</a>
+                    <a href="{{ path('app_debat_show', {'id': debat.id}) }}">Show</a>
+                    <a href="{{ path('app_debat_edit', {'id': debat.id}) }}">Edit</a>
+                    <a href="{{ path('app_commentaires', {'iddebat': debat.id}) }}">Show Comments</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">No records found</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -1,0 +1,20 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Commentaires{% endblock %}
+
+{% block body %}
+    <h1>Commentaires</h1>
+
+    {% if commentaires is empty %}
+        <p>Aucun commentaire trouvé pour ce débat.</p>
+    {% else %}
+        <ul>
+            {% for commentaire in commentaires %}
+                <li>
+                    <strong>Message:</strong> {{ commentaire.Message }}<br>
+                    <strong>Bloc:</strong> {{ commentaire.BLOCK }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
