@@ -215,7 +215,7 @@ class CosplayController extends AbstractController
    return new JsonResponse(['likeCount' => $cosplay->getLikeCount()]);
       }
    #[Route('/ajax', name: 'recherche', methods:['GET'])]
-    public function searchoffreajax(Request $request, CosplayRepository $cosplayRepository): Response
+   public function searchoffreajax(Request $request, CosplayRepository $cosplayRepository): Response
    {
     $cosplayRepository = $this->getDoctrine()->getRepository(Cosplay::class);
     $requestString = $request->get('searchValue');

@@ -48,7 +48,7 @@ class Cosplay
     private ?string $imagecp= null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE , nullable:true)]
-    #[Assert\DateTime(message:"La date de création doit être au format datetime.")]
+   
     
     private ?\DateTimeInterface $datecreation = null;
 

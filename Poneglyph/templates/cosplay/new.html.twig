@@ -42,6 +42,11 @@
                             {{ form_widget(form.idmateriaux, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Description du Cosplay' }}) }}
                             {{ form_errors(form.idmateriaux,{'attr':{'class':'text-danger'}}) }}
                         </div>
+                        <div class="form-group">
+                            <label for="idmateriaux" class="supplement-label">User</label>
+                            {{ form_widget(form.userid, {'attr': {'class': 'form-control supplement-description', 'placeholder' : 'Description du Cosplay' }}) }}
+                            {{ form_errors(form.userid,{'attr':{'class':'text-danger'}}) }}
+                        </div>
                         
 
                         <div class="buttons">

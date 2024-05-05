@@ -28,7 +28,7 @@ class User
     #[ORM\OneToMany(targetEntity: Cosplay::class, mappedBy: 'userid')]
     private Collection $cosplay;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable : true)]
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 255)]
@@ -37,25 +37,25 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable : true)]
     private ?int $cin = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable : true)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable : true)]
     private ?string $prenom = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable : true)]
     private ?int $age = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable : true)]
     private ?int $num_tel = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column(type: Types::SMALLINT,nullable : true)]
     private ?int $is_verified = null;
 
     #[ORM\OneToMany(targetEntity: Debat::class, mappedBy: 'user_id')]
@@ -378,4 +378,9 @@ class User
 
         return $this;
     }
+    public function __toString(): string
+    {
+        return $this->pseudo; 
+    }
+
 }

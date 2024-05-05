@@ -29,14 +29,18 @@ class CosplayType extends AbstractType
             'required' => false, 
             'mapped' => false,
             'constraints' => [
-                new Assert\DateTime([
-                    'message' => 'La date de création doit être au format datetime.'
+                new Assert\Image([
+                    'maxSize' => '5M', // Adjust the maximum file size as needed
+                    'mimeTypes' => [
+                        'image/jpeg',
+                        'image/png',
+                        // Add more allowed mime types if necessary
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid image file (JPEG or PNG).',
                 ]),
-                new Assert\LessThanOrEqual([
-                    'value' => 'today',
-                    'message' => "La date de création ne peut pas être postérieure à aujourd'hui."
-                ]),],
-                ])
+            ],
+        ])
+        
         ->add('datecreation', DateTimeType::class, [
             'label' => 'Date de création',
             
@@ -45,8 +49,8 @@ class CosplayType extends AbstractType
            // ->add('nomma')
            ->add('idmateriaux', null, [
             'label' => 'Matériaux',
-        ]);
-           // ->add('userid')
+        ])
+        ->add('userid')
         ;
     }
 
