@@ -116,7 +116,7 @@ class Reservation
         return $this;
     }
 
-    public function getUsers(): ?Utilisateurs
+    public function getUser(): ?Utilisateurs
     {
         return $this->user;
     }

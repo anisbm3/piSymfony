@@ -149,6 +149,7 @@ FACEBOOK: https://www.facebook.com/themefisher
       </div><!-- Row end -->
     </div><!-- Container end -->
   </div>
+                  {% if app.user %}
 
   <div class="site-navigation">
     <div class="container">
@@ -221,6 +222,7 @@ FACEBOOK: https://www.facebook.com/themefisher
           <!--/ Col end -->
         </div>
         <!--/ Row end -->
+                  {% endif %}
 
         <div class="nav-search">
           <span id="search"><i class="fa fa-search"></i></span>
@@ -251,8 +253,8 @@ FACEBOOK: https://www.facebook.com/themefisher
                 <h2 class="slide-title" data-animation-in="slideInLeft">Bienvenue dans Laugh_Tale le monde des Otakus</h2>
                 <h3 class="slide-sub-title" data-animation-in="slideInRight">Reservez les places sont limitées</h3>
                 <p data-animation-in="slideInLeft" data-duration-in="1.2">
-                    <a href="services.html" class="slider btn btn-primary">Nos Evenements</a>
-                    <a href="contact.html" class="slider btn btn-primary border">Notre Contact</a>
+                    <a href="#" class="slider btn btn-primary">Nos Evenements</a>
+                    <a href="#" class="slider btn btn-primary border">Notre Contact</a>
                 </p>
               </div>
           </div>
@@ -269,7 +271,7 @@ FACEBOOK: https://www.facebook.com/themefisher
                 <h3 class="slide-title" data-animation-in="fadeIn">Nos nouveautés</h3>
                 <h3 class="slide-sub-title" data-animation-in="slideInLeft">Des prix incroyables</h3>
                 <p data-animation-in="slideInRight">
-                    <a href="{{ path('app_produits_index') }}" class="slider btn btn-primary border">Catalogue</a>
+                    <a href="#" class="slider btn btn-primary border">Catalogue</a>
                 </p>
               </div>
           </div>
@@ -721,7 +723,7 @@ FACEBOOK: https://www.facebook.com/themefisher
     <!--/ Content row end -->
 
     <div class="general-btn text-center mt-4">
-        <a class="btn btn-primary" href="news-left-sidebar.html">Voir les Postes</a>
+        <a class="btn btn-primary" href="#">Voir les Postes</a>
     </div>
 
   </div>

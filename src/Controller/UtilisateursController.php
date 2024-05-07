@@ -276,7 +276,7 @@ class UtilisateursController extends AbstractController
         return $this->redirectToRoute('app_utilisateurs_display', ['id' => $user->getId()]);
     }
 
-    #[Route('/utilisateur/modifierPass/{id}', name: 'modifier_pass_utilisateur')]
+ /*   #[Route('/utilisateur/modifierPass/{id}', name: 'modifier_pass_utilisateur')]
     public function modifierPass(Utilisateurs $user, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
     {
         $frm = $this->createForm(EditPassType::class);
@@ -308,7 +308,103 @@ class UtilisateursController extends AbstractController
         return $this->render('utilisateurs/modifierPass.html.twig', [
             "form" => $frm->createView(),
         ]);
+    }*/
+
+/* #[Route('/utilisateur/modifierPass/{id}', name: 'modifier_pass_utilisateur')]
+
+    public function modifierPass($id, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
+{
+    $user = $this->getDoctrine()->getRepository(Utilisateurs::class)->find($id);
+
+    // Vérifier si l'utilisateur existe
+    if (!$user) {
+        throw $this->createNotFoundException('Utilisateur non trouvé');
     }
+
+    $frm = $this->createForm(EditPassType::class);
+    $frm->handleRequest($request);
+
+    if ($frm->isSubmitted() && $frm->isValid()) {
+        if ($hasher->isPasswordValid($user, $frm->getData()['plainPassword'])) {
+            $user->setPassword(
+                $hasher->hashPassword(
+                    $user,
+                    $frm->getData()['newPassword']
+                )
+            );
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash(
+                'Success',
+                'Le mot de passe est mis à jour'
+            );
+        } else {
+            $this->addFlash(
+                'Warning',
+                'Le mot de passe n\'a pas été mis à jour'
+            );
+        }
+        return $this->redirectToRoute('app_utilisateurs_display', ['id' => $user->getId()]);
+    }
+
+    // Si le formulaire n'est pas valide, il sera automatiquement réaffiché avec les erreurs
+    return $this->render('utilisateurs/modifierPass.html.twig', [
+        "form" => $frm->createView(),
+    ]);
+}
+
+*/
+
+
+#[Route('/utilisateur/modifierPass/{id}', name: 'modifier_pass_utilisateur')]
+public function modifierPass($id, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
+{
+    $user = $this->getDoctrine()->getRepository(Utilisateurs::class)->find($id);
+
+    // Vérifier si l'utilisateur existe
+    if (!$user) {
+        throw $this->createNotFoundException('Utilisateur non trouvé');
+    }
+
+    $frm = $this->createForm(EditPassType::class);
+    $frm->handleRequest($request);
+
+    if ($frm->isSubmitted() && $frm->isValid()) {
+        if ($hasher->isPasswordValid($user, $frm->getData()['plainPassword'])) {
+            $user->setPassword(
+                $hasher->hashPassword(
+                    $user,
+                    $frm->getData()['newPassword']
+                )
+            );
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash(
+                'Success',
+                'Le mot de passe est mis à jour'
+            );
+            return $this->redirectToRoute('app_utilisateurs_display', ['id' => $user->getId()]);
+        } else {
+            $this->addFlash(
+                'Warning',
+                'Le mot de passe n\'a pas été mis à jour'
+            );
+        }
+    } else {
+        // Handle form submission failure here
+        $this->addFlash(
+            'Error',
+            'Le formulaire n\'est pas valide'
+        );
+    }
+
+    // If the form submission is not valid, or password validation fails, 
+    // the form will be automatically re-displayed with errors
+    return $this->render('utilisateurs/modifierPass.html.twig', [
+        "form" => $frm->createView(),
+    ]);
+}
+
 
 
 

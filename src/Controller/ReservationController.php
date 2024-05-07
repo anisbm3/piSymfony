@@ -38,6 +38,8 @@ class ReservationController extends AbstractController
     }
 
 
+    
+
     #[Route('/front', name: 'app_reservation_indexFront', methods: ['GET'])]
     public function indexFront(ReservationRepository $reservationRepository): Response
     {
@@ -86,7 +88,7 @@ class ReservationController extends AbstractController
         $idevent->setNbPlace($idevent->getNbPlace() - $reservation->getNbPlace());
         
         // Retrieve the current user
-        $user = $security->getUsers();
+        $user = $security->getUser();
         // Set the user on the reservation entity
         $reservation->setUser($user);
         

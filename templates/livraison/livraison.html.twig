@@ -53,8 +53,20 @@
                     </fieldset>
                     {{ form_end(form) }}
                 </form>
-                {{total  }}
-            </div>
+<style>
+    .total-container {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #da9a09;
+    }
+    .total-amount {
+        color: #001233; /* ou toute autre couleur de votre choix */
+    }
+</style>
+
+<div class="total-container">
+    <p>Votre total est de : <span class="total-amount">{{ total }} €</span></p>
+</div>            </div>
         </div>
     </div>
 </section>
