@@ -76,7 +76,7 @@ class LivraisonController extends AbstractController
             $livraisons = $paginator->paginate(
                 $livraisons,
                 $request->query->getInt('page', 1),
-                3
+                1
             );
         
             return $this->render('livraison/Affiche.html.twig', [
