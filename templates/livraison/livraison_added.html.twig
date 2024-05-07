@@ -1,0 +1,26 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+
+    {% if livraison is defined and livraison.panier.getPrice() > 100 %}
+    <script>
+        function showNotification() {
+            if (Notification.permission === 'granted') {
+                new Notification('Félicitations, vous avez une remise !');
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission().then(function (permission) {
+                    if (permission === 'granted') {
+                        new Notification('Félicitations, vous avez une remise !');
+                    }
+                });
+            } else {
+                console.log('Les notifications sont désactivées');
+            }
+        }
+
+        // Appeler la fonction pour afficher la notification
+        showNotification();
+    </script>
+{% endif %}
+
+{% endblock %}

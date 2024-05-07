@@ -1,0 +1,149 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Debate Index{% endblock %}
+
+{% block body %}
+    <h1>Debate Index</h1>
+
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                    </ol>
+                </nav>
+            </div>
+            <div class="row">
+                <div class="col-12 grid-margin">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="display: flex">
+                                <div class="col-md-5"></div>
+                                <form method="post" class="forms-sample" style="margin-left: -42px;">
+                                    <div class="form-group col-md-4" style="display: flex; width: 100%!important; margin: 0px!important;">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="NomAnime">NomAnime
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="NoteAnime">NoteAnime
+                                            </label>
+                                        </div>
+                                        <button type="Submit" class="btn btn-success btn-fw" style="margin: auto;">Sort</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <ul class="navbar-nav w-100" style="margin-top: 18px;">
+                                <li class="nav-item w-100">
+                                    <form name="Search-method" id="Search-method" method="post" class="forms-sample" style="display: flex;">
+                                        <div class="form-group col-md-5">
+                                            <label style="margin-top: 11px; margin-left: 10px; margin-right: 14px; padding-bottom: 7px;">Option Search</label>
+                                            <select name="optionsearch" class="js-example-basic-single" style="width: 200px; height: 38px; color: white; background-color: #191c24; border-radius: 4px; text-align: center; border: 2px solid #0090e7; margin-right: 15px;">
+                                                <option value="">Choose a Criterion</option>
+                                                <option value="NomAnime">NomAnime</option>
+                                                <option value="NoteAnime">NoteAnime</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-7">
+                                            <div class="input-group">
+                                                <input name="Search" type="text" class="form-control" placeholder="Search debates" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-sm btn-primary" type="Submit">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </li>
+                            </ul>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Subject</th>
+                                        <th>Description</th>
+                                        <th>NomAnime</th>
+                                        <th>NoteAnime</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for debat in debats %}
+                                        <tr>
+                                            <td>{{ debat.id }}</td>
+                                            <td>{{ debat.SujetDebat }}</td>
+                                            <td>{{ debat.DescriptionDebat }}</td>
+                                            <td>{{ debat.NomAnime }}</td>
+                                            <td>{{ debat.NoteAnime }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    {% if debats|length == 0 %}
+                                        <tr>
+                                            <td colspan="6">No records found</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                            <div>
+                                <canvas id="debatChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var debatChart = document.getElementById('debatChart');
+            if (debatChart) {
+                var statuts = [];
+                var counts = {};
+
+                {% for debat in debats %}
+                    var statut = "{{ debat.NoteAnime }}";
+                    if (!counts[statut]) {
+                        counts[statut] = 0;
+                    }
+                    counts[statut]++;
+                {% endfor %}
+
+                var data = {
+                    labels: Object.keys(counts),
+                    datasets: [{
+                        data: Object.values(counts),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+
+                var ctx = debatChart.getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'front.html.twig' %}
+
+    {% block body %}
+        <div class="container">
+            <h1>Paiement des Produits</h1>
+    
+            <!-- Afficher les produits à payer -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produit in produits %}
+                        <tr>
+                            <td>{{ produit.prod_name }}</td>
+                            <td>{{ produit.quantity }}</td>
+                            <td>{{ produit.price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    
+            <!-- Afficher le total des prix -->
+            <div>
+                <p>Total à payer : {{ totalPrice }} €</p>
+            </div>
+    
+            <!-- Formulaire de paiement Stripe -->
+            <form id="payment-form">
+                <div class="form-group">
+                    <label for="card-element">Carte de crédit ou de débit</label>
+                    <div id="card-element"></div>
+                    <div id="card-errors" role="alert"></div>
+                </div>
+    
+                <button id="submit-button" class="btn btn-primary">Payer {{ totalPrice }} €</button>
+            <a href="{{ path('new_livraison', {'total': totalPrice,'id':id}) }}" class="btn btn-success">Livrez</a>
+
+
+            </form>
+        </div>
+    
+        <!-- Inclure le script de l'API Stripe -->
+        <script src="https://js.stripe.com/v3/"></script>
+    
+        <!-- Votre script JavaScript pour gérer le paiement -->
+        <script>
+            var stripe = Stripe("{{'pk_test_51OphDrASsnDruPyJX2OalNMOju1tFjPnPhY4QvHVOswrsC309XLyZdNEwAxzCveIEXGvezcvzSyui2bFHqkWvY0X001M4Vqd1Y'}}");
+            var elements = stripe.elements();
+            var cardElement = elements.create('card');
+            cardElement.mount('#card-element');
+    
+            var form = document.getElementById('payment-form');
+            var submitButton = document.getElementById('submit-button');
+    
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                stripe.createPaymentMethod({
+                    type: 'card',
+                    card: cardElement,
+                }).then(function(result) {
+                    if (result.error) {
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        stripeTokenHandler(result.paymentMethod);
+                    }
+                });
+            });
+    
+            function stripeTokenHandler(paymentMethod) {
+                // Ajoutez ici la logique pour envoyer le token au serveur et finaliser le paiement
+                console.log(paymentMethod);
+                alert('Paiement réussi !');
+            }
+        </script>
+    {% endblock %}
+    

@@ -1,0 +1,110 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<div class="container">
+    <Br>
+    <div class="w3-table w3-striped">
+        <table class="table table-bordered" id="Adback" style="background-color: white;">
+            <script src="{{ asset('/assets/js/jquery.min.js') }}"></script>
+            <input type="text" class="form-control" placeholder="Chercher" id="search2">
+            <br>
+            <thead class="w3-dark-grey">
+            <tr>
+                <th>Nom_Prenom_Client</th>
+                <th>Adresse</th>
+                <th>Date_Livraison</th>
+                <th>DELETE</th>
+                <th>EDIT</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for livraison in livraisons %}
+                <tr>
+                    <td>{{ livraison.nomprenomclient }}</td>
+                    <td>{{ livraison.adresse }}</td>
+                    <td>{{ livraison.date|date('d/m/Y') }}</td>
+                    <td><a href="{{ path('deleteLivraison',{'id':livraison.id}) }} ">
+                        <i class="fa fa-trash text-danger"></i></a>
+                    </td>                  
+                    <td>
+                        <a href="{{ path('updateLivraison',{'id':livraison.id}) }}">
+                        <i class="fa fa-pencil-alt text-success"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <Br>
+        <Br>
+        <div class="pagination">
+            {{ knp_pagination_render(livraisons) }}
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#search2').keyup(function(){
+            search_table($(this).val());
+        });
+        function search_table(value){
+            $('#Adback tbody tr').each(function(){
+                var found = 'false';
+                $(this).each(function(){
+                    if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                    {
+                        found = 'true';
+                    }
+                });
+                if(found == 'true')
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+            });
+        }
+    });
+
+    function trierLivraisons(tri) {
+        $.ajax({
+            url: '{{ path('trier_livraisons') }}',
+            type: 'GET',
+            data: {
+                tri: tri
+            },
+            success: function(response) {
+                $('#Adback tbody').html(response.livraisonsHtml);
+            },
+            error: function(xhr, status, error) {
+                console.error('Erreur lors du tri des livraisons:', error);
+            }
+        });
+    }
+    <!-- Notification script -->
+
+    function showNotification(message) {
+        if (Notification.permission === "granted") {
+            new Notification('Félicitations, vous avez une remise !', { body: message });
+        } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+                    new Notification('Félicitations, vous avez une remise !*', { body: message });
+                }
+            });
+        }
+    }
+
+    // Call this function when the livraison is successfully added
+    showNotification('Félicitations, vous avez une remise !');
+
+</script>
+
+
+  
+
+{% endblock %}

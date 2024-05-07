@@ -1,0 +1,47 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Evenement index{% endblock %}
+
+{% block body %}
+    <center>
+        <div class="service">
+            <div class="container">
+                <div class="section-header text-center">
+                    <div id="google_translate_element"></div>
+                    <h4 style="margin-top:50px; margin-bottom:50px;">Liste des Evenements</h4>
+                </div>
+                <div class="row">
+                    {% set currentDate = "now"|date('Y-m-d H:i:s') %}
+                    {% for evenement in evenements %}
+                        {% if evenement.DateEvent|date('Y-m-d H:i:s') > currentDate %}
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="service-item">
+                                    <img src="{{ asset('uploads/' ~ evenement.Image)}}" style=" width:360px; height:250px; " alt="">
+                                    <center><h2>{{ evenement.NomEvent }}</h2></center>
+                                    <p><strong style="color:#696969"> Description :</strong> {{ evenement.DescriptionEvent }}</p>
+                                    <p><strong style="color:#696969" >Lieu:</strong> {{ evenement.LieuEvent }}</p>
+                                    <p><strong style="color:#696969"> Event Date:</strong> {{ evenement.DateEvent ? evenement.DateEvent|date('Y-m-d') : '' }}</p>
+                                    {# -------------------------- Share ------------------------------------  #}
+                                    <div class="sharethis-inline-share-buttons"></div>
+                                    {# -------------------------- Share ------------------------------------  #}
+                                    <br>
+                                    {% if evenement.NbPlace > 0 %}
+                                        <center> <a href="{{ path('app_reservation_new',{'idevent':evenement.id}) }}" class="btn btn-primary">Reservez</a></center>
+
+                                    {% endif %}
+
+                                    <br>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                            <center><div class="btn px-10 py-10" {{knp_pagination_render(evenements) }} </div></center>
+
+                </div>
+                {% if evenements is empty %}
+                    <p class="text-center">Aucun événement à venir.</p>
+                {% endif %}
+            </div>
+        </div>
+    </center>
+{% endblock %}

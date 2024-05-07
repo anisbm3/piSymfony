@@ -1,0 +1,50 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}Panier index{% endblock %}
+
+{% block body %}
+    <h1>Panier index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Prod_name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Panier_id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for panier in paniers %}
+            <tr>
+                <td>{{ panier.id }}</td>
+                <td>{{ panier.prodName }}</td>
+                <td>{{ panier.quantity }}</td>
+                <td>{{ panier.price }}</td>
+                <td>{{ panier.date ? panier.date|date('Y-m-d') : '' }}</td>
+                <td>{{ panier.panierId }}</td>
+                <td>
+                    <a href="{{ path('app_panier_show', {'id': panier.id}) }}">Show</a>
+                    <a href="{{ path('app_panier_produits', {'panierId': panier.panierId}) }}" class="btn btn-success">Afficher total</a>
+
+                    {% if panier.panierId == max_panier_id %}
+<a href="{{ path('app_paiement', {'panierId': panier.panierId, 'idpanier': panier.id}) }}" class="btn btn-danger">Payer</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">No records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Bouton "Retour vers le catalogue" -->
+    <div>
+        <a href="{{ path('app_produits_index1') }}" class="btn btn-primary">Retour vers le catalogue</a>
+    </div>
+{% endblock %}

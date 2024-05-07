@@ -1,0 +1,54 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+<section class="page-title">
+  <!-- Container Start -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 text-center">
+        <!-- Title text -->
+        <h3>Livraison</h3>
+      </div>
+    </div>
+  </div>
+  <!-- Container End -->
+</section>
+<!-- page title -->
+
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="contact-us-content p-4" style="background-color: #f8f9fa; color: #1a237e; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                    <h5 class="text-center">🚚 Formulaire de Livraison 📦</h5>
+                    <p class="text-center">"Oops! 😬😬😬 Veuillez vérifier vos informations."</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-10">
+                <form action="{{ path('updateLivraison', {'id': livraison.id}) }}" method="post">
+                    {{ form_start(form) }}
+                    <fieldset class="p-4" style="background-color: #f8f9fa; color: #1a237e; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                        <div class="form-group">
+                            {{ form_row(form.NomPrenomClient, {'attr': {'class': 'form-control', 'placeholder': 'Nom et prénom du client *', 'required': true}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(form.Adresse, {'attr': {'class': 'form-control', 'placeholder': 'Adresse *', 'required': true}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(form.date, {'attr': {'class': 'form-control', 'placeholder': 'Date Livraison *', 'required': true}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(form.panier, {'attr': {'class': 'form-control', 'placeholder': 'Produit *', 'required': true}}) }}
+                        </div>
+                        
+                    </fieldset>
+                    {{ form_end(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

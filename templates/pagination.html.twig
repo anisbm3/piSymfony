@@ -1,0 +1,53 @@
+{# pagination.html.twig #}
+
+{# Customize the pagination layout using HTML and Twig syntax #}
+<div class="pagination">
+    {% if pagination.pageCount > 1 %}
+        <ul class="pagination-list">
+            {% if pagination.currentPage != 1 %}
+                <li>
+                    <a href="{{ pagination.firstPageUrl }}" aria-label="First" class="pagination-link">
+                        <span class="icon">
+                            &laquo;
+                        </span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if pagination.currentPage > 1 %}
+                <li>
+                    <a href="{{ pagination.previousPageUrl }}" aria-label="Previous" class="pagination-link">
+                        <span class="icon">
+                            &lsaquo;
+                        </span>
+                    </a>
+                </li>
+            {% endif %}
+            
+            {% for page in pagination.pages %}
+                <li>
+                    <a href="{{ pagination.pageUrl(page) }}" class="pagination-link{% if pagination.isCurrentPage(page) %} is-current{% endif %}">
+                        {{ page }}
+                    </a>
+                </li>
+            {% endfor %}
+            {% if pagination.currentPage < pagination.pageCount %}
+                <li>
+                    <a href="{{ pagination.nextPageUrl }}" aria-label="Next" class="pagination-link">
+                        <span class="icon">
+                            &rsaquo;
+                        </span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if pagination.currentPage != pagination.lastPage %}
+                <li>
+                    <a href="{{ pagination.lastPageUrl }}" aria-label="Last" class="pagination-link">
+                        <span class="icon">
+                            &raquo;
+                        </span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+</div>

@@ -1,0 +1,72 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Produits index{% endblock %}
+
+{% block body %}
+    <h1>Produits index</h1>
+
+    {# Afficher une notification pour les produits en rupture de stock #}
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {# Formulaire de recherche et de tri #}
+    <form action="{{ path('app_produits_indexback') }}" method="get">
+        <div>
+            <label for="search">Rechercher par Nom :</label>
+            <input type="text" id="search" name="Nom" value="{{ app.request.query.get('Nom') }}" />
+        </div>
+        <div>
+            <label for="tri">Trier par :</label>
+            <select id="tri" name="tri">
+                <option value="Nom" {% if app.request.query.get('tri') == 'Nom' %}selected{% endif %}>Nom</option>
+                <option value="Prix" {% if app.request.query.get('tri') == 'Prix' %}selected{% endif %}>Prix</option>
+                <option value="Stock" {% if app.request.query.get('tri') == 'Stock' %}selected{% endif %}>Stock</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Rechercher</button>
+        </div>
+    </form>
+
+    <hr>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Stock</th>
+                <th>Category</th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+                <td>{{ produit.id }}</td>
+                <td>{{ produit.stock }}</td>
+                <td>{{ produit.category }}</td>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.prix }}</td>
+                <td>{{ produit.description }}</td>
+                <td>
+                    <a href="{{ path('app_produits_show', {'id': produit.id}) }}">show</a>
+                    <a href="{{ path('app_produits_edit', {'id': produit.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_produits_new') }}">Créer un nouveau produit</a>
+    <a href="{{ path('app_panier_indexback') }}">Afficher les paniers</a>
+{% endblock %}
