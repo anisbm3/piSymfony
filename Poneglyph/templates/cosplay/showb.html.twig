@@ -1,0 +1,53 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Cosplay{% endblock %}
+
+{% block body %}
+    <h1>Cosplay</h1>
+<div class="cosplay-details">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cosplay.id }}</td>
+            </tr>
+            <tr>
+                <th>Nomcp</th>
+                <td>{{ cosplay.nomcp }}</td>
+            </tr>
+            <tr>
+                <th>Descriptioncp</th>
+                <td>{{ cosplay.descriptioncp }}</td>
+            </tr>
+            <tr>
+                <th>Personnage</th>
+                <td>{{ cosplay.personnage }}</td>
+            </tr>
+            <tr>
+                <th>Imagecp</th>
+                <td><img src="{{ asset('uploads/' ~ cosplay.imagecp) }}" alt="Image du cosplay" width="50" height="50"></td>
+            </tr>
+            <tr>
+                <th>Datecreation</th>
+                <td>{{ cosplay.datecreation ? cosplay.datecreation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+           {# <tr>
+                <th>Nomma</th>
+                <td>{{ cosplay.nomma }}</td>
+            </tr> #}
+            <tr>
+                <th>Nom materiau</th>
+                <td>{{ cosplay.idmateriaux.nomma }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="{{ path('app_cosplay_indexb') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Retour</a>
+
+</div>
+     {{ include('cosplay/_delete_formb.html.twig') }}
+
+ {#<button type="button" class="btn btn-danger">
+    <a href="{{ path('app_cosplay_edit', {'id': cosplay.id}) }}">edit</a>
+ </button>#}
+     
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Materiaux index{% endblock %}
+
+{% block body %}
+    <h1>Materiaux </h1>
+<style>
+.button {
+    background-color: #6c757d; /* Medium blue */
+    color: #fff; /* White text */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+
+ h1 {
+        font-family: Arial, sans-serif; 
+        font-size: 40px; 
+        color: #333; /* Specify the text color */
+        margin-bottom: 20px; /* Add some bottom margin for spacing */
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #001233; /* Dark blue background */
+        color: #fff; /* White text */
+    }
+
+    .table th, .table td {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #4827d5; /* Medium blue headers */
+    }
+
+    .table tbody tr:hover {
+        background-color: #6b51df; /* Light blue hover effect */
+        color: #fff; /* White text on hover */
+    }
+</style>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom material</th>
+                <th>Typema</th>
+                <th>Disponibilite</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for materiaux in materiauxes %}
+            <tr>
+                <td>{{ materiaux.id }}</td>
+                <td>{{ materiaux.nomma }}</td>
+                <td>{{ materiaux.typema }}</td>
+                <td>{{ materiaux.disponibilite }}</td>
+                <td>
+                    <a href="{{ path('app_materiaux_show', {'id': materiaux.id}) }}" class="button">Afficher</a>&nbsp;&nbsp;&nbsp;
+<a href="{{ path('app_materiaux_edit', {'id': materiaux.id}) }}" class="button">Editer</a>&nbsp;&nbsp;&nbsp;
+
+                    <a href="{{ path('app_materiaux_new') }}"class="button">Ajouter</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

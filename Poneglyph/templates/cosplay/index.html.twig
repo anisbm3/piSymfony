@@ -1,0 +1,354 @@
+{% extends 'base-front.html.twig' %}
+
+{% block title %}Cosplayindex{% endblock %}
+
+
+{% block body %}
+
+<style>
+.add-post-link {
+    font-family: Arial, sans-serif;
+        background-color: #FFD166;
+        color: #172A3A;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+}
+
+ /* Styles for ChatGPT section */
+h1 {
+    color: #ddd; /* Light gray color */
+}
+    .chatgpt-container {
+        background-color: black;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .question,
+    .gpt {
+        background-color: #222;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    .text-input {
+        display: flex;
+        align-items: center;
+        background-color: #222;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .text {
+        flex: 1;
+        border: none;
+        background-color: transparent;
+        color: white;
+    }
+
+    .send {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .send-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+
+.header {
+    background-color: #222; /* Dark color for the header */
+    color: #ddd; /* Light gray color for text */
+}
+</style>
+<section id="main-container" class="main-container">
+  <div class="container">
+  
+
+    <div class="row">
+
+      <div class="col-lg-4 order-1 order-lg-0">
+
+        <div class="sidebar sidebar-left">
+          <div class="widget recent-posts">
+            <h3 class="widget-title">Recent Posts</h3>
+            <ul class="list-unstyled">
+                  {% for cosplay in cosplays %}
+              <li class="d-flex align-items-center">
+                <div class="posts-thumb">
+                   <td><img src="{{ asset('uploads/' ~ cosplay.imagecp) }}" alt="Image du cosplay" width="50" height="300"></td>
+
+                </div>
+                <div class="post-info">
+                  <h4 class="entry-title">
+                    <a href="#"> <td>{{ cosplay.nomcp }}</td></a>
+                  </h4>
+                </div>
+              </li><!-- 1st post end-->
+
+                {% endfor %}
+              
+
+            </ul>
+
+          </div><!-- Recent post end -->
+
+          <div class="widget">
+            <h3 class="widget-title">Categories</h3>
+            <ul class="arrow nav nav-tabs">
+              <li><a href="#">Construction</a></li>
+              <li><a href="#">Commercial</a></li>
+              <li><a href="#">Building</a></li>
+              <li><a href="#">Safety</a></li>
+              <li><a href="#">Structure</a></li>
+            </ul>
+          </div><!-- Categories end -->
+
+          <div class="widget">
+            <h3 class="widget-title">Archives </h3>
+            <ul class="arrow nav nav-tabs">
+              <li><a href="#">Feburay 2016</a></li>
+              <li><a href="#">January 2016</a></li>
+              <li><a href="#">December 2015</a></li>
+              <li><a href="#">November 2015</a></li>
+              <li><a href="#">October 2015</a></li>
+            </ul>
+          </div><!-- Archives end -->
+
+          <div class="widget widget-tags">
+            <h3 class="widget-title">Tags </h3>
+
+            <ul class="list-unstyled">
+              <li><a href="#">Construction</a></li>
+              <li><a href="#">Design</a></li>
+              <li><a href="#">Project</a></li>
+              <li><a href="#">Building</a></li>
+              <li><a href="#">Finance</a></li>
+              <li><a href="#">Safety</a></li>
+              <li><a href="#">Contracting</a></li>
+              <li><a href="#">Planning</a></li>
+            </ul>
+          </div><!-- Tags end -->
+
+
+        </div><!-- Sidebar end -->
+      </div><!-- Sidebar Col end -->
+      
+
+      <div class="col-lg-8 mb-5 mb-lg-0 order-0 order-lg-1">
+              <div class="post-add">
+    <a href="{{ path('app_cosplay_new') }}" class="add-post-link" style="background-color: #FFD166; color: #172A3A; padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+        <i class="fas fa-plus-circle fa-lg" style="margin-right: 5px;"></i> Ajouter  post
+    </a>
+ &nbsp;&nbsp;
+    <!-- AJAX search input and results container -->
+    <div class="sidebar-search" style="margin-bottom: 303x;">
+        <div class="input-group custom-search-form">
+            <input type="text" id="search" class="form-control" placeholder="Search here">
+        </div><!-- /input-group -->
+    </div>
+
+    <!-- Container for search results -->
+    <div class="row" id="search-results">
+        <!-- Search results will be displayed here -->
+    </div>
+    <script src="{{ asset('js/jquery.js') }}"></script>
+        <script
+                src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js') }}">
+        </script>
+        <script>
+            $( document ).ready(function() {
+                var currentRequest = null;
+                $("#search").keyup(function(e){
+                    /* La variable value va prendre la valeur insérer dans le champ de texte
+                    afin d’effectuer la recherche */
+                    var value = $(this).val();
+                    if(currentRequest != null) {
+                        currentRequest.abort();
+                    }
+                    /* Ajax est lancé lors du remplissage du champ texte dont l’id est
+                    « search » pour faire la recherche */
+                    currentRequest = $.ajax({
+                        url : "{{ path('recherche') }}",
+                        type : 'GET',
+                        data: {
+                            'searchValue' : value
+                        },
+                        success : function(retour)
+                        {
+                            $('#all').html(retour);
+                        },
+                    });
+                    return false;
+                });
+            });
+        </script>
+    <br><br><br><br>
+    </div>
+
+                        &nbsp;&nbsp;
+      {% for cosplay in cosplays %}
+        <div class="post">
+          <div class="post-media post-image">
+            <td><img src="{{ asset('uploads/' ~ cosplay.imagecp) }}" alt="Image du cosplay" width="510" height="510"></td>
+          </div>
+
+          <div class="post-body">
+            <div class="entry-header">
+              <div class="post-meta">
+                <span class="post-author">
+                  <i class="far fa-user"></i><a href="#"> {{ cosplay.userid }}</a>
+                </span>
+                <span class="post-cat">
+                 <i class="fas fa-leaf"></i> Fabriqué avec <td>{{ cosplay.idmateriaux }}</td>
+                </span>
+                
+               <span class="post-meta-date">
+               <i class="far fa-calendar"></i> 
+                {{ cosplay.datecreation ? cosplay.datecreation|date('F d, Y') : '' }}
+                
+               </span>
+              
+
+                <span class="post-comment" data-cosplay-id="{{ cosplay.id }}">
+    <a href="#" class="comments-link" id="like-button"><i class="far fa-heart"></i>Like ({{ cosplay.likeCount }})</a>
+        </span>
+
+
+               </div>
+              <h2 class="entry-title">
+                <td>{{ cosplay.nomcp }}</td>
+              </h2>
+            </div><!-- header end -->
+
+            <div class="entry-content">
+             <tr>
+                  <td>
+                     <span class="description">{{ cosplay.descriptioncp }}</span>
+                       
+                    </td>
+                  
+
+            </div>
+
+            <div class="post-footer">
+              <a href="{{ path('app_cosplay_show', {'id': cosplay.id}) }}" class="btn btn-primary">Continue Reading</a>
+            </div>
+
+          </div><!-- post-body end -->
+        </div><!-- 1st post end -->
+        
+ {% else %}
+        <tr>
+            <td colspan="8">no records found</td>
+        </tr>
+       
+        {% endfor %}
+         <!-- ChatGPT Section -->
+        <div class="chatgpt-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Chat with ChatGPT</h1>
+                    <div class="header">
+                        <div class="title">User</div>
+                        <img src="{{asset ('frontOffice/images/avatar.png')}}" alt="Avatar" class="avatar">
+                    </div>
+                    <div class="question">{{question}}</div>
+                    <div class="gpt-response">
+                        <img src="{{asset ('frontOffice/images/gpt.png')}}" alt="GPT Logo" class="gpt-logo">
+                        <div class="gpt">{{ response }}</div>
+                    </div>
+                    <div class="type">
+                        <div class="input-div">
+                            <!-- Form for submitting a question to ChatGPT -->
+                            <form action="{{ path('send_chat') }}" method="post">
+                                <div class="text-input">
+                                    <input type="text" name="text" class="text" placeholder="Type your message...">
+                                    <button type="submit" class="btn send">
+                                        <img src="{{asset ('frontOffice/images/send.png')}}" alt="Send" class="send-icon">
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of ChatGPT Section -->
+       <!-- <nav class="paging" aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li>
+          </ul>
+        </nav>-->
+              <ul class="navigation flex justify-center mb-8">
+             {# Render the pagination control #}
+               {{ knp_pagination_render(cosplays) }}
+             </ul>
+      </div><!-- Content Col end -->
+
+    </div><!-- Main row end -->
+
+       
+
+
+  </div><!-- Container end -->
+</section><!-- Main container end -->
+<script>
+
+
+window.addEventListener("DOMContentLoaded", (event) => {
+    const likeButton = document.getElementById('like-button');
+    if (likeButton) {
+        likeButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log(this.closest('.cosplay'));
+            var cosplayId = this.closest('.cosplay').dataset.cosplayId;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/like/' + cosplayId, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var likesCount = document.getElementById('likes-count');
+                    likesCount.textContent = parseInt(likesCount.textContent) + 1;
+                }
+            };
+            xhr.send();
+        });
+    }
+});
+
+
+
+</script>
+
+
+
+{% endblock %}

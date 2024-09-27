@@ -1,0 +1,89 @@
+{% extends 'base-front.html.twig' %}
+
+{% block title %}Cosplay{% endblock %}
+
+{% block body %}
+<section id="main-container" class="main-container">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-lg-8 mb-5 mb-lg-0">
+
+        <div style="text-align: center" class="post-content post-single">
+         {% include 'cosplay/_delete_form.html.twig' with {'cosplay': cosplay} %}
+          <div class="post-media post-image">
+            <div style="text-align: center"><img src="{{ asset('uploads/' ~ cosplay.imagecp) }}" alt="Image du cosplay" width="510" height="510"></div>
+          </div>
+
+          <div class="post-body">
+            <div class="entry-header">
+              <div class="post-meta">
+
+                <span class="post-author">
+                  <i class="far fa-user"></i><a href="#"> Admin</a>
+                </span>
+
+                <span class="post-cat">
+                 <i class="fas fa-leaf"></i> Fabriqué avec <td>{{ cosplay.idmateriaux }}</td>
+                </span>
+
+                <span class="post-meta-date"><i class="far fa-calendar"></i>  {{ cosplay.datecreation ? cosplay.datecreation|date('F d, Y') : '' }}</span>
+
+                 <span class="post-author">
+                            <i class="far fa-edit"></i><a href="{{ path('app_cosplay_edit', {'id': cosplay.id}) }}"> Editer</a> </span>
+                           
+
+                <span class="post-comment">
+                 <i class="far fa-heart"></i> 03
+                  <a href="#" class="comments-link">Likes</i></a>
+                     </span>
+                    
+                      
+                           
+                            
+                       
+                 
+
+              </div>
+              <h2 class="entry-title">
+                <td>{{ cosplay.nomcp }}</td>
+              </h2>
+            </div><!-- header end -->
+
+            <div class="entry-content">
+              <p><td>{{ cosplay.personnage }}</td></p>
+
+              <p><td>{{ cosplay.descriptioncp }}</td></p>
+
+             
+
+              
+
+              
+            </div>
+
+            <div class="tags-area d-flex align-items-center justify-content-between">
+              <div class="post-tags">
+                <a href="#">Construction</a>
+                <a href="#">Safety</a>
+                <a href="#">Planning</a>
+              </div>
+              <div class="share-items">
+                <ul class="post-social-icons list-unstyled">
+                  <li class="social-icons-head">Share:</li>
+                  {% include "components/_share.html.twig" %}
+                 
+                </ul>
+ 
+
+              </div>
+            </div>
+
+          </div><!-- post-body end -->
+        </div><!-- post content end -->
+        
+    </div><!-- Main row end -->
+
+  </div><!-- Conatiner end -->
+</section><!-- Main container end -->
+{% endblock %}
